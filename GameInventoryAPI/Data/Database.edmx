@@ -1,0 +1,700 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="GameInventoryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Game_GameMode">
+          <Key>
+            <PropertyRef Name="GameGameModeId" />
+          </Key>
+          <Property Name="GameGameModeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GameId" Type="int" Nullable="false" />
+          <Property Name="GameModeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Game_Genre">
+          <Key>
+            <PropertyRef Name="GameGenreId" />
+          </Key>
+          <Property Name="GameGenreId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GameId" Type="int" Nullable="false" />
+          <Property Name="GenreId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Game_Medium">
+          <Key>
+            <PropertyRef Name="GameMediumId" />
+          </Key>
+          <Property Name="GameMediumId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GameId" Type="int" Nullable="false" />
+          <Property Name="MediumId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Game_Plattform">
+          <Key>
+            <PropertyRef Name="GamePlattformId" />
+          </Key>
+          <Property Name="GamePlattformId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GameId" Type="int" Nullable="false" />
+          <Property Name="PlattformId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GameEngines">
+          <Key>
+            <PropertyRef Name="GameEngineId" />
+          </Key>
+          <Property Name="GameEngineId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GameMode">
+          <Key>
+            <PropertyRef Name="GameModeId" />
+          </Key>
+          <Property Name="GameModeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Games">
+          <Key>
+            <PropertyRef Name="GameId" />
+          </Key>
+          <Property Name="GameId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="PublisherId" Type="int" Nullable="false" />
+          <Property Name="GameEngineId" Type="int" />
+          <Property Name="FirstPublication" Type="datetime" Nullable="false" />
+          <Property Name="Description" Type="text" />
+          <Property Name="AgeRating" Type="int" Nullable="false" />
+          <Property Name="Information" Type="text" />
+          <Property Name="CoverUrl" Type="text" />
+        </EntityType>
+        <EntityType Name="Genres">
+          <Key>
+            <PropertyRef Name="GenreId" />
+          </Key>
+          <Property Name="GenreId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="text" />
+        </EntityType>
+        <EntityType Name="Medium">
+          <Key>
+            <PropertyRef Name="MediumId" />
+          </Key>
+          <Property Name="MediumId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Plattform">
+          <Key>
+            <PropertyRef Name="PlattformId" />
+          </Key>
+          <Property Name="PlattformId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="text" />
+          <Property Name="Producer" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Release" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Publishers">
+          <Key>
+            <PropertyRef Name="PublisherId" />
+          </Key>
+          <Property Name="PublisherId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Country" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="text" />
+        </EntityType>
+        <Association Name="FK_Game_GameMode_GameMode">
+          <End Role="GameMode" Type="Self.GameMode" Multiplicity="1" />
+          <End Role="Game_GameMode" Type="Self.Game_GameMode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameMode">
+              <PropertyRef Name="GameModeId" />
+            </Principal>
+            <Dependent Role="Game_GameMode">
+              <PropertyRef Name="GameModeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Game_GameMode_Games">
+          <End Role="Games" Type="Self.Games" Multiplicity="1" />
+          <End Role="Game_GameMode" Type="Self.Game_GameMode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Games">
+              <PropertyRef Name="GameId" />
+            </Principal>
+            <Dependent Role="Game_GameMode">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Game_Genre_Games">
+          <End Role="Games" Type="Self.Games" Multiplicity="1" />
+          <End Role="Game_Genre" Type="Self.Game_Genre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Games">
+              <PropertyRef Name="GameId" />
+            </Principal>
+            <Dependent Role="Game_Genre">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Game_Genre_Genres1">
+          <End Role="Genres" Type="Self.Genres" Multiplicity="1" />
+          <End Role="Game_Genre" Type="Self.Game_Genre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genres">
+              <PropertyRef Name="GenreId" />
+            </Principal>
+            <Dependent Role="Game_Genre">
+              <PropertyRef Name="GenreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Game_Medium_Games">
+          <End Role="Games" Type="Self.Games" Multiplicity="1" />
+          <End Role="Game_Medium" Type="Self.Game_Medium" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Games">
+              <PropertyRef Name="GameId" />
+            </Principal>
+            <Dependent Role="Game_Medium">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Game_Medium_Medium">
+          <End Role="Medium" Type="Self.Medium" Multiplicity="1" />
+          <End Role="Game_Medium" Type="Self.Game_Medium" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medium">
+              <PropertyRef Name="MediumId" />
+            </Principal>
+            <Dependent Role="Game_Medium">
+              <PropertyRef Name="MediumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Game_Plattform_Games">
+          <End Role="Games" Type="Self.Games" Multiplicity="1" />
+          <End Role="Game_Plattform" Type="Self.Game_Plattform" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Games">
+              <PropertyRef Name="GameId" />
+            </Principal>
+            <Dependent Role="Game_Plattform">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Game_Plattform_Plattform1">
+          <End Role="Plattform" Type="Self.Plattform" Multiplicity="1" />
+          <End Role="Game_Plattform" Type="Self.Game_Plattform" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plattform">
+              <PropertyRef Name="PlattformId" />
+            </Principal>
+            <Dependent Role="Game_Plattform">
+              <PropertyRef Name="PlattformId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Games_GameEngines">
+          <End Role="GameEngines" Type="Self.GameEngines" Multiplicity="0..1" />
+          <End Role="Games" Type="Self.Games" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameEngines">
+              <PropertyRef Name="GameEngineId" />
+            </Principal>
+            <Dependent Role="Games">
+              <PropertyRef Name="GameEngineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Games_Publishers">
+          <End Role="Publishers" Type="Self.Publishers" Multiplicity="1" />
+          <End Role="Games" Type="Self.Games" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Publishers">
+              <PropertyRef Name="PublisherId" />
+            </Principal>
+            <Dependent Role="Games">
+              <PropertyRef Name="PublisherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GameInventoryModelStoreContainer">
+          <EntitySet Name="Game_GameMode" EntityType="Self.Game_GameMode" Schema="Tomasi" store:Type="Tables" />
+          <EntitySet Name="Game_Genre" EntityType="Self.Game_Genre" Schema="Tomasi" store:Type="Tables" />
+          <EntitySet Name="Game_Medium" EntityType="Self.Game_Medium" Schema="Tomasi" store:Type="Tables" />
+          <EntitySet Name="Game_Plattform" EntityType="Self.Game_Plattform" Schema="Tomasi" store:Type="Tables" />
+          <EntitySet Name="GameEngines" EntityType="Self.GameEngines" Schema="Tomasi" store:Type="Tables" />
+          <EntitySet Name="GameMode" EntityType="Self.GameMode" Schema="Tomasi" store:Type="Tables" />
+          <EntitySet Name="Games" EntityType="Self.Games" Schema="Tomasi" store:Type="Tables" />
+          <EntitySet Name="Genres" EntityType="Self.Genres" Schema="Tomasi" store:Type="Tables" />
+          <EntitySet Name="Medium" EntityType="Self.Medium" Schema="Tomasi" store:Type="Tables" />
+          <EntitySet Name="Plattform" EntityType="Self.Plattform" Schema="Tomasi" store:Type="Tables" />
+          <EntitySet Name="Publishers" EntityType="Self.Publishers" Schema="Tomasi" store:Type="Tables" />
+          <AssociationSet Name="FK_Game_GameMode_GameMode" Association="Self.FK_Game_GameMode_GameMode">
+            <End Role="GameMode" EntitySet="GameMode" />
+            <End Role="Game_GameMode" EntitySet="Game_GameMode" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Game_GameMode_Games" Association="Self.FK_Game_GameMode_Games">
+            <End Role="Games" EntitySet="Games" />
+            <End Role="Game_GameMode" EntitySet="Game_GameMode" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Game_Genre_Games" Association="Self.FK_Game_Genre_Games">
+            <End Role="Games" EntitySet="Games" />
+            <End Role="Game_Genre" EntitySet="Game_Genre" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Game_Genre_Genres1" Association="Self.FK_Game_Genre_Genres1">
+            <End Role="Genres" EntitySet="Genres" />
+            <End Role="Game_Genre" EntitySet="Game_Genre" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Game_Medium_Games" Association="Self.FK_Game_Medium_Games">
+            <End Role="Games" EntitySet="Games" />
+            <End Role="Game_Medium" EntitySet="Game_Medium" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Game_Medium_Medium" Association="Self.FK_Game_Medium_Medium">
+            <End Role="Medium" EntitySet="Medium" />
+            <End Role="Game_Medium" EntitySet="Game_Medium" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Game_Plattform_Games" Association="Self.FK_Game_Plattform_Games">
+            <End Role="Games" EntitySet="Games" />
+            <End Role="Game_Plattform" EntitySet="Game_Plattform" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Game_Plattform_Plattform1" Association="Self.FK_Game_Plattform_Plattform1">
+            <End Role="Plattform" EntitySet="Plattform" />
+            <End Role="Game_Plattform" EntitySet="Game_Plattform" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Games_GameEngines" Association="Self.FK_Games_GameEngines">
+            <End Role="GameEngines" EntitySet="GameEngines" />
+            <End Role="Games" EntitySet="Games" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Games_Publishers" Association="Self.FK_Games_Publishers">
+            <End Role="Publishers" EntitySet="Publishers" />
+            <End Role="Games" EntitySet="Games" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GameInventoryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="GameInventoryEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Game_GameMode" EntityType="GameInventoryModel.Game_GameMode" />
+          <EntitySet Name="Game_Genre" EntityType="GameInventoryModel.Game_Genre" />
+          <EntitySet Name="Game_Medium" EntityType="GameInventoryModel.Game_Medium" />
+          <EntitySet Name="Game_Plattform" EntityType="GameInventoryModel.Game_Plattform" />
+          <EntitySet Name="GameEngines" EntityType="GameInventoryModel.GameEngines" />
+          <EntitySet Name="GameMode" EntityType="GameInventoryModel.GameMode" />
+          <EntitySet Name="Games" EntityType="GameInventoryModel.Games" />
+          <EntitySet Name="Genres" EntityType="GameInventoryModel.Genres" />
+          <EntitySet Name="Medium" EntityType="GameInventoryModel.Medium" />
+          <EntitySet Name="Plattform" EntityType="GameInventoryModel.Plattform" />
+          <EntitySet Name="Publishers" EntityType="GameInventoryModel.Publishers" />
+          <AssociationSet Name="FK_Game_GameMode_GameMode" Association="GameInventoryModel.FK_Game_GameMode_GameMode">
+            <End Role="GameMode" EntitySet="GameMode" />
+            <End Role="Game_GameMode" EntitySet="Game_GameMode" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Game_GameMode_Games" Association="GameInventoryModel.FK_Game_GameMode_Games">
+            <End Role="Games" EntitySet="Games" />
+            <End Role="Game_GameMode" EntitySet="Game_GameMode" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Game_Genre_Games" Association="GameInventoryModel.FK_Game_Genre_Games">
+            <End Role="Games" EntitySet="Games" />
+            <End Role="Game_Genre" EntitySet="Game_Genre" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Game_Genre_Genres1" Association="GameInventoryModel.FK_Game_Genre_Genres1">
+            <End Role="Genres" EntitySet="Genres" />
+            <End Role="Game_Genre" EntitySet="Game_Genre" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Game_Medium_Games" Association="GameInventoryModel.FK_Game_Medium_Games">
+            <End Role="Games" EntitySet="Games" />
+            <End Role="Game_Medium" EntitySet="Game_Medium" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Game_Medium_Medium" Association="GameInventoryModel.FK_Game_Medium_Medium">
+            <End Role="Medium" EntitySet="Medium" />
+            <End Role="Game_Medium" EntitySet="Game_Medium" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Game_Plattform_Games" Association="GameInventoryModel.FK_Game_Plattform_Games">
+            <End Role="Games" EntitySet="Games" />
+            <End Role="Game_Plattform" EntitySet="Game_Plattform" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Game_Plattform_Plattform1" Association="GameInventoryModel.FK_Game_Plattform_Plattform1">
+            <End Role="Plattform" EntitySet="Plattform" />
+            <End Role="Game_Plattform" EntitySet="Game_Plattform" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Games_GameEngines" Association="GameInventoryModel.FK_Games_GameEngines">
+            <End Role="GameEngines" EntitySet="GameEngines" />
+            <End Role="Games" EntitySet="Games" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Games_Publishers" Association="GameInventoryModel.FK_Games_Publishers">
+            <End Role="Publishers" EntitySet="Publishers" />
+            <End Role="Games" EntitySet="Games" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Game_GameMode">
+          <Key>
+            <PropertyRef Name="GameGameModeId" />
+          </Key>
+          <Property Name="GameGameModeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GameId" Type="Int32" Nullable="false" />
+          <Property Name="GameModeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GameMode" Relationship="GameInventoryModel.FK_Game_GameMode_GameMode" FromRole="Game_GameMode" ToRole="GameMode" />
+          <NavigationProperty Name="Games" Relationship="GameInventoryModel.FK_Game_GameMode_Games" FromRole="Game_GameMode" ToRole="Games" />
+        </EntityType>
+        <EntityType Name="Game_Genre">
+          <Key>
+            <PropertyRef Name="GameGenreId" />
+          </Key>
+          <Property Name="GameGenreId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GameId" Type="Int32" Nullable="false" />
+          <Property Name="GenreId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Games" Relationship="GameInventoryModel.FK_Game_Genre_Games" FromRole="Game_Genre" ToRole="Games" />
+          <NavigationProperty Name="Genres" Relationship="GameInventoryModel.FK_Game_Genre_Genres1" FromRole="Game_Genre" ToRole="Genres" />
+        </EntityType>
+        <EntityType Name="Game_Medium">
+          <Key>
+            <PropertyRef Name="GameMediumId" />
+          </Key>
+          <Property Name="GameMediumId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GameId" Type="Int32" Nullable="false" />
+          <Property Name="MediumId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Games" Relationship="GameInventoryModel.FK_Game_Medium_Games" FromRole="Game_Medium" ToRole="Games" />
+          <NavigationProperty Name="Medium" Relationship="GameInventoryModel.FK_Game_Medium_Medium" FromRole="Game_Medium" ToRole="Medium" />
+        </EntityType>
+        <EntityType Name="Game_Plattform">
+          <Key>
+            <PropertyRef Name="GamePlattformId" />
+          </Key>
+          <Property Name="GamePlattformId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GameId" Type="Int32" Nullable="false" />
+          <Property Name="PlattformId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Games" Relationship="GameInventoryModel.FK_Game_Plattform_Games" FromRole="Game_Plattform" ToRole="Games" />
+          <NavigationProperty Name="Plattform" Relationship="GameInventoryModel.FK_Game_Plattform_Plattform1" FromRole="Game_Plattform" ToRole="Plattform" />
+        </EntityType>
+        <EntityType Name="GameEngines">
+          <Key>
+            <PropertyRef Name="GameEngineId" />
+          </Key>
+          <Property Name="GameEngineId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Games" Relationship="GameInventoryModel.FK_Games_GameEngines" FromRole="GameEngines" ToRole="Games" />
+        </EntityType>
+        <EntityType Name="GameMode">
+          <Key>
+            <PropertyRef Name="GameModeId" />
+          </Key>
+          <Property Name="GameModeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Game_GameMode" Relationship="GameInventoryModel.FK_Game_GameMode_GameMode" FromRole="GameMode" ToRole="Game_GameMode" />
+        </EntityType>
+        <EntityType Name="Games">
+          <Key>
+            <PropertyRef Name="GameId" />
+          </Key>
+          <Property Name="GameId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PublisherId" Type="Int32" Nullable="false" />
+          <Property Name="GameEngineId" Type="Int32" />
+          <Property Name="FirstPublication" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AgeRating" Type="Int32" Nullable="false" />
+          <Property Name="Information" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CoverUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Game_GameMode" Relationship="GameInventoryModel.FK_Game_GameMode_Games" FromRole="Games" ToRole="Game_GameMode" />
+          <NavigationProperty Name="Game_Genre" Relationship="GameInventoryModel.FK_Game_Genre_Games" FromRole="Games" ToRole="Game_Genre" />
+          <NavigationProperty Name="Game_Medium" Relationship="GameInventoryModel.FK_Game_Medium_Games" FromRole="Games" ToRole="Game_Medium" />
+          <NavigationProperty Name="Game_Plattform" Relationship="GameInventoryModel.FK_Game_Plattform_Games" FromRole="Games" ToRole="Game_Plattform" />
+          <NavigationProperty Name="GameEngines" Relationship="GameInventoryModel.FK_Games_GameEngines" FromRole="Games" ToRole="GameEngines" />
+          <NavigationProperty Name="Publishers" Relationship="GameInventoryModel.FK_Games_Publishers" FromRole="Games" ToRole="Publishers" />
+        </EntityType>
+        <EntityType Name="Genres">
+          <Key>
+            <PropertyRef Name="GenreId" />
+          </Key>
+          <Property Name="GenreId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Game_Genre" Relationship="GameInventoryModel.FK_Game_Genre_Genres1" FromRole="Genres" ToRole="Game_Genre" />
+        </EntityType>
+        <EntityType Name="Medium">
+          <Key>
+            <PropertyRef Name="MediumId" />
+          </Key>
+          <Property Name="MediumId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Game_Medium" Relationship="GameInventoryModel.FK_Game_Medium_Medium" FromRole="Medium" ToRole="Game_Medium" />
+        </EntityType>
+        <EntityType Name="Plattform">
+          <Key>
+            <PropertyRef Name="PlattformId" />
+          </Key>
+          <Property Name="PlattformId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Producer" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Release" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Game_Plattform" Relationship="GameInventoryModel.FK_Game_Plattform_Plattform1" FromRole="Plattform" ToRole="Game_Plattform" />
+        </EntityType>
+        <EntityType Name="Publishers">
+          <Key>
+            <PropertyRef Name="PublisherId" />
+          </Key>
+          <Property Name="PublisherId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Games" Relationship="GameInventoryModel.FK_Games_Publishers" FromRole="Publishers" ToRole="Games" />
+        </EntityType>
+        <Association Name="FK_Game_GameMode_GameMode">
+          <End Type="GameInventoryModel.GameMode" Role="GameMode" Multiplicity="1" />
+          <End Type="GameInventoryModel.Game_GameMode" Role="Game_GameMode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameMode">
+              <PropertyRef Name="GameModeId" />
+            </Principal>
+            <Dependent Role="Game_GameMode">
+              <PropertyRef Name="GameModeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Game_GameMode_Games">
+          <End Type="GameInventoryModel.Games" Role="Games" Multiplicity="1" />
+          <End Type="GameInventoryModel.Game_GameMode" Role="Game_GameMode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Games">
+              <PropertyRef Name="GameId" />
+            </Principal>
+            <Dependent Role="Game_GameMode">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Game_Genre_Games">
+          <End Type="GameInventoryModel.Games" Role="Games" Multiplicity="1" />
+          <End Type="GameInventoryModel.Game_Genre" Role="Game_Genre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Games">
+              <PropertyRef Name="GameId" />
+            </Principal>
+            <Dependent Role="Game_Genre">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Game_Genre_Genres1">
+          <End Type="GameInventoryModel.Genres" Role="Genres" Multiplicity="1" />
+          <End Type="GameInventoryModel.Game_Genre" Role="Game_Genre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genres">
+              <PropertyRef Name="GenreId" />
+            </Principal>
+            <Dependent Role="Game_Genre">
+              <PropertyRef Name="GenreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Game_Medium_Games">
+          <End Type="GameInventoryModel.Games" Role="Games" Multiplicity="1" />
+          <End Type="GameInventoryModel.Game_Medium" Role="Game_Medium" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Games">
+              <PropertyRef Name="GameId" />
+            </Principal>
+            <Dependent Role="Game_Medium">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Game_Medium_Medium">
+          <End Type="GameInventoryModel.Medium" Role="Medium" Multiplicity="1" />
+          <End Type="GameInventoryModel.Game_Medium" Role="Game_Medium" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medium">
+              <PropertyRef Name="MediumId" />
+            </Principal>
+            <Dependent Role="Game_Medium">
+              <PropertyRef Name="MediumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Game_Plattform_Games">
+          <End Type="GameInventoryModel.Games" Role="Games" Multiplicity="1" />
+          <End Type="GameInventoryModel.Game_Plattform" Role="Game_Plattform" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Games">
+              <PropertyRef Name="GameId" />
+            </Principal>
+            <Dependent Role="Game_Plattform">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Game_Plattform_Plattform1">
+          <End Type="GameInventoryModel.Plattform" Role="Plattform" Multiplicity="1" />
+          <End Type="GameInventoryModel.Game_Plattform" Role="Game_Plattform" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plattform">
+              <PropertyRef Name="PlattformId" />
+            </Principal>
+            <Dependent Role="Game_Plattform">
+              <PropertyRef Name="PlattformId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Games_GameEngines">
+          <End Type="GameInventoryModel.GameEngines" Role="GameEngines" Multiplicity="0..1" />
+          <End Type="GameInventoryModel.Games" Role="Games" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameEngines">
+              <PropertyRef Name="GameEngineId" />
+            </Principal>
+            <Dependent Role="Games">
+              <PropertyRef Name="GameEngineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Games_Publishers">
+          <End Type="GameInventoryModel.Publishers" Role="Publishers" Multiplicity="1" />
+          <End Type="GameInventoryModel.Games" Role="Games" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Publishers">
+              <PropertyRef Name="PublisherId" />
+            </Principal>
+            <Dependent Role="Games">
+              <PropertyRef Name="PublisherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GameInventoryModelStoreContainer" CdmEntityContainer="GameInventoryEntities">
+          <EntitySetMapping Name="Game_GameMode">
+            <EntityTypeMapping TypeName="GameInventoryModel.Game_GameMode">
+              <MappingFragment StoreEntitySet="Game_GameMode">
+                <ScalarProperty Name="GameModeId" ColumnName="GameModeId" />
+                <ScalarProperty Name="GameId" ColumnName="GameId" />
+                <ScalarProperty Name="GameGameModeId" ColumnName="GameGameModeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Game_Genre">
+            <EntityTypeMapping TypeName="GameInventoryModel.Game_Genre">
+              <MappingFragment StoreEntitySet="Game_Genre">
+                <ScalarProperty Name="GenreId" ColumnName="GenreId" />
+                <ScalarProperty Name="GameId" ColumnName="GameId" />
+                <ScalarProperty Name="GameGenreId" ColumnName="GameGenreId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Game_Medium">
+            <EntityTypeMapping TypeName="GameInventoryModel.Game_Medium">
+              <MappingFragment StoreEntitySet="Game_Medium">
+                <ScalarProperty Name="MediumId" ColumnName="MediumId" />
+                <ScalarProperty Name="GameId" ColumnName="GameId" />
+                <ScalarProperty Name="GameMediumId" ColumnName="GameMediumId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Game_Plattform">
+            <EntityTypeMapping TypeName="GameInventoryModel.Game_Plattform">
+              <MappingFragment StoreEntitySet="Game_Plattform">
+                <ScalarProperty Name="PlattformId" ColumnName="PlattformId" />
+                <ScalarProperty Name="GameId" ColumnName="GameId" />
+                <ScalarProperty Name="GamePlattformId" ColumnName="GamePlattformId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GameEngines">
+            <EntityTypeMapping TypeName="GameInventoryModel.GameEngines">
+              <MappingFragment StoreEntitySet="GameEngines">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="GameEngineId" ColumnName="GameEngineId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GameMode">
+            <EntityTypeMapping TypeName="GameInventoryModel.GameMode">
+              <MappingFragment StoreEntitySet="GameMode">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="GameModeId" ColumnName="GameModeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Games">
+            <EntityTypeMapping TypeName="GameInventoryModel.Games">
+              <MappingFragment StoreEntitySet="Games">
+                <ScalarProperty Name="CoverUrl" ColumnName="CoverUrl" />
+                <ScalarProperty Name="Information" ColumnName="Information" />
+                <ScalarProperty Name="AgeRating" ColumnName="AgeRating" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FirstPublication" ColumnName="FirstPublication" />
+                <ScalarProperty Name="GameEngineId" ColumnName="GameEngineId" />
+                <ScalarProperty Name="PublisherId" ColumnName="PublisherId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="GameId" ColumnName="GameId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genres">
+            <EntityTypeMapping TypeName="GameInventoryModel.Genres">
+              <MappingFragment StoreEntitySet="Genres">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="GenreId" ColumnName="GenreId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Medium">
+            <EntityTypeMapping TypeName="GameInventoryModel.Medium">
+              <MappingFragment StoreEntitySet="Medium">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MediumId" ColumnName="MediumId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Plattform">
+            <EntityTypeMapping TypeName="GameInventoryModel.Plattform">
+              <MappingFragment StoreEntitySet="Plattform">
+                <ScalarProperty Name="Release" ColumnName="Release" />
+                <ScalarProperty Name="Producer" ColumnName="Producer" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PlattformId" ColumnName="PlattformId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Publishers">
+            <EntityTypeMapping TypeName="GameInventoryModel.Publishers">
+              <MappingFragment StoreEntitySet="Publishers">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PublisherId" ColumnName="PublisherId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Kein" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
