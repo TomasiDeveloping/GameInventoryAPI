@@ -266,7 +266,6 @@
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\EngineController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\GameModeController.cs" />

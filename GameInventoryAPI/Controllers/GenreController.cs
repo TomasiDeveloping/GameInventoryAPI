@@ -8,7 +8,8 @@ using System.Web.Http;
 
 namespace GameInventoryAPI.Controllers
 {
-    public class GenreController : BaseApiController
+    [RoutePrefix("api/Genre")]
+    public class GenreController : ApiController
     {
         private readonly GenreLogic genreLogic = new GenreLogic();
 

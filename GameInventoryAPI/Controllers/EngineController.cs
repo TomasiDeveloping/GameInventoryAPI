@@ -1,4 +1,5 @@
 ﻿using GameInventoryAPI.Logic;
+using GameInventoryAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,8 @@ using System.Web.Http;
 
 namespace GameInventoryAPI.Controllers
 {
-    public class EngineController : BaseApiController
+    [RoutePrefix("api/Engine")]
+    public class EngineController : ApiController
     {
         private readonly EngineLogic logic = new EngineLogic();
 
@@ -38,6 +40,57 @@ namespace GameInventoryAPI.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost]
+        public async Task<IHttpActionResult> Post(GameEngineModel gameEngineModel)
+        {
+            try
+            {
+                var check = await logic.InsertEngineAsync(gameEngineModel);
+
+                if (check) return Ok(gameEngineModel);
+                return BadRequest("Fehler beim hinzufügen");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        public async Task<IHttpActionResult> Put(int id, GameEngineModel gameEngineModel)
+        {
+            try
+            {
+                if (id <= 0) return BadRequest("Keine Id angegben");
+                gameEngineModel.GameEngineId = id;
+                var engine = await logic.UpdateEngineAsync(gameEngineModel);
+                if (engine == null) return BadRequest("Fehler beim Updaten");
+                return Ok(engine);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IHttpActionResult> Delete(int id)
+        {
+            try
+            {
+                if (id <= 0) return BadRequest("Keine Id");
+                var check = await logic.DeleteEngineByIdAsync(id);
+
+                if (check) return Ok();
+                return BadRequest("Fehler beim löschen");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+     
         }
     }
 }

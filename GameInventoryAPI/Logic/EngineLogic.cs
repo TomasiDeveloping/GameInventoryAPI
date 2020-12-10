@@ -28,6 +28,23 @@ namespace GameInventoryAPI.Logic
             return MapToModel(engine);
         }
 
+        public async Task<bool> InsertEngineAsync(GameEngineModel gameEngineModel)
+        {
+            if (gameEngineModel == null) return false;
+            return await repository.InsertEngineAsync(MapToDbObject(gameEngineModel));
+        }
+
+        public async Task<GameEngineModel> UpdateEngineAsync(GameEngineModel gameEngineModel)
+        {
+            if (gameEngineModel == null) return null;
+            return MapToModel(await repository.UpdateGameEngineAsync(MapToDbObject(gameEngineModel)));
+        }
+
+        public async Task<bool> DeleteEngineByIdAsync(int engineId)
+        {
+            return await repository.DeleteEngineById(engineId);
+        }
+
         private GameEngineModel MapToModel(GameEngines gameEngine)
         {
             if (gameEngine == null) return null;
@@ -36,6 +53,16 @@ namespace GameInventoryAPI.Logic
             {
                 GameEngineId = gameEngine.GameEngineId,
                 Name = gameEngine.Name
+            };
+        }
+        private GameEngines MapToDbObject(GameEngineModel gameEngineModel)
+        {
+            if (gameEngineModel == null) return null;
+
+            return new GameEngines
+            {
+                GameEngineId = gameEngineModel.GameEngineId,
+                Name = gameEngineModel.Name
             };
         }
     }

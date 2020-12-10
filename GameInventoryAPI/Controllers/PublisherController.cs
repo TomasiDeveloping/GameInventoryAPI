@@ -8,7 +8,8 @@ using System.Web.Http;
 
 namespace GameInventoryAPI.Controllers
 {
-    public class PublisherController : BaseApiController
+    [RoutePrefix("api/Publisher")]
+    public class PublisherController : ApiController
     {
         private readonly PublisherLogic publisherLogic = new PublisherLogic();
 

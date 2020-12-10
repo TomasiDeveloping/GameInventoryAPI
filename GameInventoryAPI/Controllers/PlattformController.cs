@@ -8,7 +8,8 @@ using System.Web.Http;
 
 namespace GameInventoryAPI.Controllers
 {
-    public class PlattformController : BaseApiController
+    [RoutePrefix("api/Plattform")]
+    public class PlattformController : ApiController
     {
         private readonly PlattformLogic logic = new PlattformLogic();
 

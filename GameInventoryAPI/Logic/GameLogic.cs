@@ -47,6 +47,54 @@ namespace GameInventoryAPI.Logic
             return GameMapper(game);
         }
 
+        public async Task<IEnumerable<GameModel>> GetGamesByPlattformId(int plattformId)
+        {
+            var games = await gameRepository.GetGamesByPlattformId(plattformId);
+            var modelList = new List<GameModel>();
+            foreach (var item in games) modelList.Add(GameMapper(item));
+            return modelList;
+        }
+
+        public async Task<IEnumerable<GameModel>> GetGamesByPublisherId(int publisherId)
+        {
+            var games = await gameRepository.GetGamesByPublisherId(publisherId);
+            var modelList = new List<GameModel>();
+            foreach (var item in games) modelList.Add(GameMapper(item));
+            return modelList;
+        }
+
+        public async Task<IEnumerable<GameModel>> GetGamesByMediumId(int mediumId)
+        {
+            var games = await gameRepository.GetGamesByMediumId(mediumId);
+            var modelList = new List<GameModel>();
+            foreach (var item in games) modelList.Add(GameMapper(item));
+            return modelList;
+        }
+
+        public async Task<IEnumerable<GameModel>> GetGamesByGenreId(int genreId)
+        {
+            var games = await gameRepository.GetGamesByGenreId(genreId);
+            var modelList = new List<GameModel>();
+            foreach (var item in games) modelList.Add(GameMapper(item));
+            return modelList;
+        }
+
+        public async Task<IEnumerable<GameModel>> GetGamesByGameModeId(int gameModeId)
+        {
+            var games = await gameRepository.GetGamesByGameModeId(gameModeId);
+            var modelList = new List<GameModel>();
+            foreach (var item in games) modelList.Add(GameMapper(item));
+            return modelList;
+        }
+
+        public async Task<IEnumerable<GameModel>> GetGamesByEngineId(int engineId)
+        {
+            var games = await gameRepository.GetGamesByEngineId(engineId);
+            var modelList = new List<GameModel>();
+            foreach (var item in games) modelList.Add(GameMapper(item));
+            return modelList;
+        }
+
         public GameModel GameMapper(Games game)
         {
             return new GameModel

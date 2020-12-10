@@ -13,7 +13,8 @@ using System.Web.Http;
 
 namespace GameInventoryAPI.Controllers
 {
-    public class GameController : BaseApiController
+    [RoutePrefix("api/Game")]
+    public class GameController : ApiController
     {
         private readonly GameLogic gameLogic = new GameLogic();
 
@@ -39,6 +40,84 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
       
+        }
+
+        [HttpGet, Route("Plattform/{plattformId}")]
+        public async Task<IHttpActionResult> GetGamesByPlattformId(int plattformId)
+        {
+            try
+            {
+                return Ok(await gameLogic.GetGamesByPlattformId(plattformId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet, Route("Publisher/{publisherId}")]
+        public async Task<IHttpActionResult> GetGamesByPublisherId(int publisherId)
+        {
+            try
+            {
+                return Ok(await gameLogic.GetGamesByPublisherId(publisherId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet, Route("Medium/{mediumId}")]
+        public async Task<IHttpActionResult> GetGamesByMediumId(int mediumId)
+        {
+            try
+            {
+                return Ok(await gameLogic.GetGamesByMediumId(mediumId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet, Route("Genre/{genreId}")]
+        public async Task<IHttpActionResult> GetGamesByGenreId(int genreId)
+        {
+            try
+            {
+                return Ok(await gameLogic.GetGamesByGenreId(genreId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet, Route("GameMode/{gameModeId}")]
+        public async Task<IHttpActionResult> GetGamesByGameModeId(int gameModeId)
+        {
+            try
+            {
+                return Ok(await gameLogic.GetGamesByGameModeId(gameModeId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet, Route("Engine/{engineId}")]
+        public async Task<IHttpActionResult> GetGamesByEngineId(int engineId)
+        {
+            try
+            {
+                return Ok(await gameLogic.GetGamesByEngineId(engineId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

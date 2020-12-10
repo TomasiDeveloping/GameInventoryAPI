@@ -8,7 +8,8 @@ using System.Web.Http;
 
 namespace GameInventoryAPI.Controllers
 {
-    public class GameModeController : BaseApiController
+    [RoutePrefix("api/GameMode")]
+    public class GameModeController : ApiController
     {
         private readonly GameModeLogic logic = new GameModeLogic();
 

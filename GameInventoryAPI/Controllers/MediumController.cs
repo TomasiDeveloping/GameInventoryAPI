@@ -8,7 +8,8 @@ using System.Web.Http;
 
 namespace GameInventoryAPI.Controllers
 {
-    public class MediumController : BaseApiController
+    [RoutePrefix("api/Medium")]
+    public class MediumController : ApiController
     {
         private readonly MediumLogic logic = new MediumLogic();
 
