@@ -11,7 +11,9 @@ namespace GameInventoryAPI.Models
     {
         public int GameId { get; set; }
         public string Name { get; set; }
+        public int PublisherId { get; set; }
         public string PublisherName { get; set; }
+        public int? GameEngineId { get; set; }
         public string GameEngineName { get; set; }
         public DateTime FirstPublication { get; set; }
         public string Description { get; set; }

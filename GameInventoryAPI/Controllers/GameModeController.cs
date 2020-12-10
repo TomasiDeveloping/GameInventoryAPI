@@ -13,6 +13,7 @@ namespace GameInventoryAPI.Controllers
     {
         private readonly GameModeLogic logic = new GameModeLogic();
 
+        #region GET
         [HttpGet]
         public async Task<IHttpActionResult> Get()
         {
@@ -40,5 +41,15 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        #endregion
+
+        #region POST
+        #endregion
+
+        #region PUT
+        #endregion
+
+        #region DELETE
+        #endregion
     }
 }

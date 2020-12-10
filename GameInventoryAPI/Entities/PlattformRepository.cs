@@ -10,6 +10,8 @@ namespace GameInventoryAPI.Entities
 {
     public class PlattformRepository
     {
+        #region Get Functions
+
         private readonly GameInventoryEntities context = new GameInventoryEntities();
 
         public async Task<IEnumerable<Plattform>> GetPlattformsAsync()
@@ -21,5 +23,16 @@ namespace GameInventoryAPI.Entities
         {
             return await context.Plattform.FindAsync(id);
         }
+
+        #endregion
+
+        #region Update Functions
+        #endregion
+
+        #region Insert Functions
+        #endregion
+
+        #region Delete Functions
+        #endregion
     }
 }

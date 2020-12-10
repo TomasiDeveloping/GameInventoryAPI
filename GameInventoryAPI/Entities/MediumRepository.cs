@@ -10,6 +10,8 @@ namespace GameInventoryAPI.Entities
 {
     public class MediumRepository
     {
+        #region Get Functions
+
         private readonly GameInventoryEntities context = new GameInventoryEntities();
 
         public async Task<IEnumerable<Medium>> GetMediumsAsync()
@@ -22,5 +24,15 @@ namespace GameInventoryAPI.Entities
             return await context.Medium.FindAsync(id);
         }
 
+        #endregion
+
+        #region Update Functions
+        #endregion
+
+        #region Insert Functions
+        #endregion
+
+        #region Delete Functions
+        #endregion
     }
 }

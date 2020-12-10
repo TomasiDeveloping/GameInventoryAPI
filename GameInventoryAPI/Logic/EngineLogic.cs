@@ -13,6 +13,7 @@ namespace GameInventoryAPI.Logic
     {
         private readonly EngineRepository repository = new EngineRepository();
 
+        #region Get Functions
         public async Task<IEnumerable<GameEngineModel>> GetEnginesAsync()
         {
             var engines = await repository.GetEnginesAsync();
@@ -27,23 +28,30 @@ namespace GameInventoryAPI.Logic
             if (engine == null) return null;
             return MapToModel(engine);
         }
+        #endregion
 
-        public async Task<bool> InsertEngineAsync(GameEngineModel gameEngineModel)
-        {
-            if (gameEngineModel == null) return false;
-            return await repository.InsertEngineAsync(MapToDbObject(gameEngineModel));
-        }
-
+        #region Update Functions
         public async Task<GameEngineModel> UpdateEngineAsync(GameEngineModel gameEngineModel)
         {
             if (gameEngineModel == null) return null;
             return MapToModel(await repository.UpdateGameEngineAsync(MapToDbObject(gameEngineModel)));
         }
+        #endregion
 
+        #region Insert Functions
+        public async Task<bool> InsertEngineAsync(GameEngineModel gameEngineModel)
+        {
+            if (gameEngineModel == null) return false;
+            return await repository.InsertEngineAsync(MapToDbObject(gameEngineModel));
+        }
+        #endregion
+
+        #region Delete Functions
         public async Task<bool> DeleteEngineByIdAsync(int engineId)
         {
             return await repository.DeleteEngineByIdAsync(engineId);
         }
+        #endregion
 
         private GameEngineModel MapToModel(GameEngines gameEngine)
         {

@@ -13,6 +13,7 @@ namespace GameInventoryAPI.Logic
     {
         private readonly PublisherRepository repository = new PublisherRepository();
 
+        #region Get Functions
         public async Task<IEnumerable<PublisherModel>> GetPublisherAsync()
         {
             var publisher = await repository.GetPublishersAsync();
@@ -27,6 +28,16 @@ namespace GameInventoryAPI.Logic
             if (publisher == null) return null;
             return MapToModel(publisher);
         }
+        #endregion
+
+        #region Update Functions
+        #endregion
+
+        #region Insert Functions
+        #endregion
+
+        #region Delete Functions
+        #endregion
 
         private PublisherModel MapToModel(Publishers publisher)
         {
@@ -38,6 +49,19 @@ namespace GameInventoryAPI.Logic
                 Description = publisher.Description,
                 Name = publisher.Name,
                 PublisherId = publisher.PublisherId
+            };
+        }
+
+        private Publishers MapToDbObject(PublisherModel publisherModel)
+        {
+            if (publisherModel == null) return null;
+
+            return new Publishers
+            {
+                Country = publisherModel.Country,
+                Description = publisherModel.Description,
+                Name = publisherModel.Name,
+                PublisherId = publisherModel.PublisherId
             };
         }
     }

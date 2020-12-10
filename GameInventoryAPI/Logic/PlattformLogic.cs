@@ -13,6 +13,7 @@ namespace GameInventoryAPI.Logic
     {
         private readonly PlattformRepository repository = new PlattformRepository();
 
+        #region Get Functions
         public async Task<IEnumerable<PlattformModel>> GetPlattformsAsync()
         {
             var plattforms = await repository.GetPlattformsAsync();
@@ -27,6 +28,16 @@ namespace GameInventoryAPI.Logic
             if (plattform == null) return null;
             return MapToModel(plattform);
         }
+        #endregion
+
+        #region Update Functions
+        #endregion
+
+        #region Insert Functions
+        #endregion
+
+        #region Delete Functions
+        #endregion
 
         private PlattformModel MapToModel(Plattform plattform)
         {
@@ -39,6 +50,20 @@ namespace GameInventoryAPI.Logic
                 PlattformId = plattform.PlattformId,
                 Producer = plattform.Producer,
                 Release = plattform.Release
+            };
+        }
+
+        private Plattform MapToDbObject(PlattformModel plattformModel)
+        {
+            if (plattformModel == null) return null;
+
+            return new Plattform
+            {
+                Description = plattformModel.Description,
+                Name = plattformModel.Name,
+                PlattformId = plattformModel.PlattformId,
+                Producer = plattformModel.Producer,
+                Release = plattformModel.Release
             };
         }
     }

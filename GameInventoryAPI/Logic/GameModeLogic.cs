@@ -13,6 +13,7 @@ namespace GameInventoryAPI.Logic
     {
         private readonly GameModeRepository repository = new GameModeRepository();
 
+        #region Get Functions
         public async Task<IEnumerable<GameModeModel>> GetGameModesAsync()
         {
             var gameModes = await repository.GetGameModesAsync();
@@ -27,6 +28,17 @@ namespace GameInventoryAPI.Logic
             if (gameMode == null) return null;
             return MapToModel(gameMode);
         }
+        #endregion
+
+        #region Update Functions
+        #endregion
+
+        #region Insert Functions
+        #endregion
+
+        #region Delete Functions
+        #endregion
+
         private GameModeModel MapToModel(GameMode gameMode)
         {
             if (gameMode == null) return null;
@@ -36,6 +48,17 @@ namespace GameInventoryAPI.Logic
                 GameModeId = gameMode.GameModeId,
                 Name = gameMode.Name
             };
-        } 
+        }
+        
+        private GameMode MapToDbObject(GameModeModel gameModeModel)
+        {
+            if (gameModeModel == null) return null;
+
+            return new GameMode
+            {
+                GameModeId = gameModeModel.GameModeId,
+                Name = gameModeModel.Name
+            };
+        }
     }
 }

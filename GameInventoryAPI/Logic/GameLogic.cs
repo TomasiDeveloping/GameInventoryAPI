@@ -12,6 +12,8 @@ namespace GameInventoryAPI.Logic
     public class GameLogic
     {
         private readonly GameRepository gameRepository = new GameRepository();
+
+        #region Get Functions
         public async Task<IEnumerable<GameModel>> GetGamesAsync()
         {
             var games = await gameRepository.GetGamesAsync();
@@ -75,14 +77,26 @@ namespace GameInventoryAPI.Logic
             foreach (var item in games) modelList.Add(MapToModel(item));
             return modelList;
         }
+        #endregion
 
-        public GameModel MapToModel(Games game)
+        #region Update Functions
+        #endregion
+
+        #region Insert Functions
+        #endregion
+
+        #region Delete Functions
+        #endregion
+
+        private GameModel MapToModel(Games game)
         {
             return new GameModel
             {
                 GameId = game.GameId,
                 Name = game.Name,
+                GameEngineId = game.GameEngineId,
                 PublisherName = game.Publishers.Name,
+                PublisherId = game.PublisherId,
                 AgeRating = game.AgeRating,
                 CoverUrl = game.CoverUrl,
                 Description = game.Description,
@@ -93,6 +107,24 @@ namespace GameInventoryAPI.Logic
                 GameModes = game.Game_GameMode?.Select(m => new GameModelGameMode { GameModeName = m.GameMode.Name }).ToList(),
                 Genres = game.Game_Genre?.Select(g => new GameModelGenre { GenreName = g.Genres.Name }).ToList(),
                 Mediums = game.Game_Medium?.Select(m => new GameModelMedium { MediumName = m.Medium.Name }).ToList()
+            };
+        }
+
+        private Games MapToDbObject(GameModel gameModel)
+        {
+            if (gameModel == null) return null;
+
+            return new Games
+            {
+                GameId = gameModel.GameId,
+                Name = gameModel.Name,
+                PublisherId = gameModel.PublisherId,
+                GameEngineId = gameModel.GameEngineId,
+                AgeRating = gameModel.AgeRating,
+                CoverUrl = gameModel.CoverUrl,
+                Description = gameModel.Description,
+                FirstPublication = gameModel.FirstPublication,
+                Information = gameModel.Information,
             };
         }
     }

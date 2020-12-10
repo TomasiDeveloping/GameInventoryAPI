@@ -10,6 +10,8 @@ namespace GameInventoryAPI.Entities
 {
     public class GameRepository
     {
+        #region Get Functions
+
         private readonly GameInventoryEntities context = new GameInventoryEntities();
         public async Task<IEnumerable<Games>> GetGamesAsync()
         {
@@ -50,5 +52,16 @@ namespace GameInventoryAPI.Entities
         {
             return await context.Games.Where(g => g.GameEngineId == engineId).ToListAsync();
         }
+
+        #endregion
+
+        #region Update Functions
+        #endregion
+
+        #region Insert Functions
+        #endregion
+
+        #region Delete Functions
+        #endregion
     }
 }

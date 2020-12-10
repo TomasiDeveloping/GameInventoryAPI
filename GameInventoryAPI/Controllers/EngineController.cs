@@ -14,6 +14,7 @@ namespace GameInventoryAPI.Controllers
     {
         private readonly EngineLogic logic = new EngineLogic();
 
+        #region GET
         [HttpGet]
         public async Task<IHttpActionResult> Get()
         {
@@ -41,7 +42,9 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        #endregion
 
+        #region POST
         [HttpPost]
         public async Task<IHttpActionResult> Post(GameEngineModel gameEngineModel)
         {
@@ -57,7 +60,9 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        #endregion
 
+        #region PUT
         [HttpPut]
         public async Task<IHttpActionResult> Put(int id, GameEngineModel gameEngineModel)
         {
@@ -74,7 +79,9 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        #endregion
 
+        #region DELETE
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(int id)
         {
@@ -92,5 +99,6 @@ namespace GameInventoryAPI.Controllers
             }
      
         }
+        #endregion
     }
 }

@@ -13,6 +13,7 @@ namespace GameInventoryAPI.Logic
     {
         private readonly GenreRepository repository = new GenreRepository();
 
+        #region Get Functions
         public async Task<IEnumerable<GenreModel>> GetGenresAsync()
         {
             var genres = await repository.GetGenresAsync();
@@ -27,8 +28,18 @@ namespace GameInventoryAPI.Logic
             if (genre == null) return null;
             return MapToModel(genre);
         }
+        #endregion
 
-        public GenreModel MapToModel(Genres genre)
+        #region Update Functions
+        #endregion
+
+        #region Insert Functions
+        #endregion
+
+        #region Delete Functions
+        #endregion
+
+        private GenreModel MapToModel(Genres genre)
         {
             if (genre == null) return null;
 
@@ -37,6 +48,18 @@ namespace GameInventoryAPI.Logic
                 Description = genre.Description,
                 GenreId = genre.GenreId,
                 Name = genre.Name
+            };
+        }
+
+        private Genres MapToDbObject(GenreModel genreModel)
+        {
+            if (genreModel == null) return null;
+
+            return new Genres
+            {
+                Description = genreModel.Description,
+                GenreId = genreModel.GenreId,
+                Name = genreModel.Name
             };
         }
     }
