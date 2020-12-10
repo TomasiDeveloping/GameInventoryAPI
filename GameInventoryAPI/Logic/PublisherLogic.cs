@@ -17,7 +17,7 @@ namespace GameInventoryAPI.Logic
         {
             var publisher = await repository.GetPublishersAsync();
             var modelList = new List<PublisherModel>();
-            foreach (var item in publisher) modelList.Add(Map(item));
+            foreach (var item in publisher) modelList.Add(MapToModel(item));
             return modelList;
         }
 
@@ -25,10 +25,10 @@ namespace GameInventoryAPI.Logic
         {
             var publisher = await repository.GetPublisherByIdAsync(id);
             if (publisher == null) return null;
-            return Map(publisher);
+            return MapToModel(publisher);
         }
 
-        private PublisherModel Map(Publishers publisher)
+        private PublisherModel MapToModel(Publishers publisher)
         {
             if (publisher == null) return null;
 

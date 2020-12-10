@@ -47,7 +47,7 @@ namespace GameInventoryAPI.Controllers
         {
             try
             {
-                return Ok(await gameLogic.GetGamesByPlattformId(plattformId));
+                return Ok(await gameLogic.GetGamesByPlattformIdAsync(plattformId));
             }
             catch (Exception ex)
             {
@@ -60,7 +60,7 @@ namespace GameInventoryAPI.Controllers
         {
             try
             {
-                return Ok(await gameLogic.GetGamesByPublisherId(publisherId));
+                return Ok(await gameLogic.GetGamesByPublisherIdAsync(publisherId));
             }
             catch (Exception ex)
             {
@@ -73,7 +73,7 @@ namespace GameInventoryAPI.Controllers
         {
             try
             {
-                return Ok(await gameLogic.GetGamesByMediumId(mediumId));
+                return Ok(await gameLogic.GetGamesByMediumIdAsync(mediumId));
             }
             catch (Exception ex)
             {
@@ -86,7 +86,7 @@ namespace GameInventoryAPI.Controllers
         {
             try
             {
-                return Ok(await gameLogic.GetGamesByGenreId(genreId));
+                return Ok(await gameLogic.GetGamesByGenreIdAsync(genreId));
             }
             catch (Exception ex)
             {
@@ -99,7 +99,7 @@ namespace GameInventoryAPI.Controllers
         {
             try
             {
-                return Ok(await gameLogic.GetGamesByGameModeId(gameModeId));
+                return Ok(await gameLogic.GetGamesByGameModeIdAsync(gameModeId));
             }
             catch (Exception ex)
             {
@@ -112,7 +112,7 @@ namespace GameInventoryAPI.Controllers
         {
             try
             {
-                return Ok(await gameLogic.GetGamesByEngineId(engineId));
+                return Ok(await gameLogic.GetGamesByEngineIdAsync(engineId));
             }
             catch (Exception ex)
             {

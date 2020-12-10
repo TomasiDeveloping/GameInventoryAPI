@@ -38,7 +38,7 @@ namespace GameInventoryAPI.Entities
             return engineToUpdate;
         }
 
-        public async Task<bool> DeleteEngineById(int gameEngineId)
+        public async Task<bool> DeleteEngineByIdAsync(int gameEngineId)
         {
             var engineToDelete = await context.GameEngines.FindAsync(gameEngineId);
 

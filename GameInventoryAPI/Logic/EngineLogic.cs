@@ -42,7 +42,7 @@ namespace GameInventoryAPI.Logic
 
         public async Task<bool> DeleteEngineByIdAsync(int engineId)
         {
-            return await repository.DeleteEngineById(engineId);
+            return await repository.DeleteEngineByIdAsync(engineId);
         }
 
         private GameEngineModel MapToModel(GameEngines gameEngine)
