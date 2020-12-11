@@ -56,12 +56,58 @@ namespace GameInventoryAPI.Entities
         #endregion
 
         #region Update Functions
+        public async Task<Games> UpdateGameAsync(Games game)
+        {
+            if (game == null) return null;
+
+            var gameToUpdate = await context.Games.FindAsync(game.GameId);
+
+            if (gameToUpdate == null) return null;
+
+            gameToUpdate.GameId = game.GameId;
+            gameToUpdate.Name = game.Name;
+            gameToUpdate.PublisherId = game.PublisherId;
+            gameToUpdate.GameEngineId = game.GameEngineId;
+            gameToUpdate.FirstPublication = game.FirstPublication;
+            gameToUpdate.Description = game.Description;
+            gameToUpdate.AgeRating = game.AgeRating;
+            gameToUpdate.Information = game.Information;
+            gameToUpdate.CoverUrl = game.CoverUrl;
+
+            var checkUpdate = await context.SaveChangesAsync() > 0;
+
+            if (!checkUpdate) return null;
+
+            return gameToUpdate;
+        }
         #endregion
 
         #region Insert Functions
+        public async Task<Games> InsertGameAsync(Games game)
+        {
+            if (game == null) return null;
+
+            context.Games.Add(game);
+
+            var checkInsert = await context.SaveChangesAsync() > 0;
+
+            if (!checkInsert) return null;
+
+            return game;
+        }
         #endregion
 
         #region Delete Functions
+        public async Task<bool> DeleteGameByIdAsync(int id)
+        {
+            var gameToDelete = await context.Games.FindAsync(id);
+
+            if (gameToDelete == null) return false;
+
+            context.Games.Remove(gameToDelete);
+
+            return await context.SaveChangesAsync() > 0;
+        }
         #endregion
     }
 }

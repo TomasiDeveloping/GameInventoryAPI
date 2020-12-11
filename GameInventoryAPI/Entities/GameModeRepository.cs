@@ -27,12 +27,38 @@ namespace GameInventoryAPI.Entities
         #endregion
 
         #region Update Functions
+        public async Task<GameMode> UpdateGameModeAsync(GameMode gameMode)
+        {
+            if (gameMode == null) return null;
+            var gameModeToUpdate = await context.GameMode.FindAsync(gameMode.GameModeId);
+            if (gameModeToUpdate == null) return null;
+            gameModeToUpdate.GameModeId = gameMode.GameModeId;
+            gameModeToUpdate.Name = gameMode.Name;
+            var checkUpdate = await context.SaveChangesAsync() > 0;
+            if (!checkUpdate) return null;
+            return gameModeToUpdate;
+        }
         #endregion
 
         #region Insert Functions
+        public async Task<GameMode> InsertGameModeAsync(GameMode gameMode)
+        {
+            if (gameMode == null) return null;
+            context.GameMode.Add(gameMode);
+            var checkInsert = await context.SaveChangesAsync() > 0;
+            if (!checkInsert) return null;
+            return gameMode;
+        }
         #endregion
 
         #region Delete Functions
+        public async Task<bool> DeleteGameModeByIdAsync(int id)
+        {
+            var gameModeToDelete = await context.GameMode.FindAsync(id);
+            if (gameModeToDelete == null) return false;
+            context.GameMode.Remove(gameModeToDelete);
+            return await context.SaveChangesAsync() > 0;
+        }
         #endregion
     }
 }

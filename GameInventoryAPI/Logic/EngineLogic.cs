@@ -33,16 +33,16 @@ namespace GameInventoryAPI.Logic
         #region Update Functions
         public async Task<GameEngineModel> UpdateEngineAsync(GameEngineModel gameEngineModel)
         {
-            if (gameEngineModel == null) return null;
+            if (gameEngineModel == null) throw new ArgumentException(Properties.Settings.Default.ObjectNullException);
             return MapToModel(await repository.UpdateGameEngineAsync(MapToDbObject(gameEngineModel)));
         }
         #endregion
 
         #region Insert Functions
-        public async Task<bool> InsertEngineAsync(GameEngineModel gameEngineModel)
+        public async Task<GameEngineModel> InsertEngineAsync(GameEngineModel gameEngineModel)
         {
-            if (gameEngineModel == null) return false;
-            return await repository.InsertEngineAsync(MapToDbObject(gameEngineModel));
+            if (gameEngineModel == null) throw new ArgumentException(Properties.Settings.Default.ObjectNullException);
+            return MapToModel(await repository.InsertEngineAsync(MapToDbObject(gameEngineModel)));
         }
         #endregion
 

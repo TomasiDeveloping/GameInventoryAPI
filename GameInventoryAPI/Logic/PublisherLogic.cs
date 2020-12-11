@@ -31,12 +31,26 @@ namespace GameInventoryAPI.Logic
         #endregion
 
         #region Update Functions
+        public async Task<PublisherModel> UpdatePublisherAsync(PublisherModel publisherModel)
+        {
+            if (publisherModel == null) throw new ArgumentException(Properties.Settings.Default.ObjectNullException);
+            return MapToModel(await repository.UpdatePublisherAsync(MapToDbObject(publisherModel)));
+        }
         #endregion
 
         #region Insert Functions
+        public async Task<PublisherModel> InsertPublisherAsync(PublisherModel publisherModel)
+        {
+            if (publisherModel == null) throw new ArgumentException(Properties.Settings.Default.ObjectNullException);
+            return MapToModel(await repository.InsertPublisherAsync(MapToDbObject(publisherModel)));
+        }
         #endregion
 
         #region Delete Functions
+        public async Task<bool> DeletePublisherByIdAsync(int publisherId)
+        {
+            return await repository.DeletePublisherByIdAsync(publisherId);
+        }
         #endregion
 
         private PublisherModel MapToModel(Publishers publisher)

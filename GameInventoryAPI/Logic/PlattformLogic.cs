@@ -31,12 +31,26 @@ namespace GameInventoryAPI.Logic
         #endregion
 
         #region Update Functions
+        public async Task<PlattformModel> UpdatePlattformAsync(PlattformModel plattformModel)
+        {
+            if (plattformModel == null) throw new ArgumentException(Properties.Settings.Default.ObjectNullException);
+            return MapToModel(await repository.UpdatePlattformAsync(MapToDbObject(plattformModel)));
+        }
         #endregion
 
         #region Insert Functions
+        public async Task<PlattformModel> InsertPlattformAsync(PlattformModel plattformModel)
+        {
+            if (plattformModel == null) throw new ArgumentException(Properties.Settings.Default.ObjectNullException);
+            return MapToModel(await repository.InsertPlattformAsync(MapToDbObject(plattformModel)));
+        }
         #endregion
 
         #region Delete Functions
+        public async Task<bool> DeletePlattformByIdAsync(int plattformId)
+        {
+            return await repository.DeletePlattformByIdAsync(plattformId);
+        }
         #endregion
 
         private PlattformModel MapToModel(Plattform plattform)

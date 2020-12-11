@@ -31,12 +31,26 @@ namespace GameInventoryAPI.Logic
         #endregion
 
         #region Update Functions
+        public async Task<MediumModel> UpdateMediumAsync(MediumModel mediumModel)
+        {
+            if (mediumModel == null) throw new ArgumentException(Properties.Settings.Default.ObjectNullException);
+            return MapToModel(await repository.UpdateMediumAsync(MapToDbObject(mediumModel)));
+        }
         #endregion
 
         #region Insert Functions
+        public async Task<MediumModel> InsertMediumAsync(MediumModel mediumModel)
+        {
+            if (mediumModel == null) throw new ArgumentException(Properties.Settings.Default.ObjectNullException);
+            return MapToModel(await repository.InsertMediumAsync(MapToDbObject(mediumModel)));
+        }
         #endregion
 
         #region Delete Functions
+        public async Task<bool> DeleteMediumByIdAsync(int mediumId)
+        {
+            return await repository.DeleteMediumByIdAsync(mediumId);
+        }
         #endregion
 
         private MediumModel MapToModel(Medium medium)

@@ -50,10 +50,10 @@ namespace GameInventoryAPI.Controllers
         {
             try
             {
-                var check = await logic.InsertEngineAsync(gameEngineModel);
+                var newGameEngine = await logic.InsertEngineAsync(gameEngineModel);
 
-                if (check) return Ok(gameEngineModel);
-                return BadRequest("Fehler beim hinzufügen");
+                if (newGameEngine == null) return BadRequest("Fehler beim hinzufügen");
+                return Ok(newGameEngine);
             }
             catch (Exception ex)
             {

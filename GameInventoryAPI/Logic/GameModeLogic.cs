@@ -31,12 +31,26 @@ namespace GameInventoryAPI.Logic
         #endregion
 
         #region Update Functions
+        public async Task<GameModeModel> UpdateGameModeAsync(GameModeModel gameModeModel)
+        {
+            if (gameModeModel == null) throw new ArgumentException(Properties.Settings.Default.ObjectNullException);
+            return MapToModel(await repository.UpdateGameModeAsync(MapToDbObject(gameModeModel)));
+        }
         #endregion
 
         #region Insert Functions
+        public async Task<GameModeModel> InsertGameModeAsync(GameModeModel gameModeModel)
+        {
+            if (gameModeModel == null) throw new ArgumentException(Properties.Settings.Default.ObjectNullException);
+            return MapToModel(await repository.InsertGameModeAsync(MapToDbObject(gameModeModel)));
+        }
         #endregion
 
         #region Delete Functions
+        public async Task<bool> DeleteGameModeById(int gameModeId)
+        {
+            return await repository.DeleteGameModeByIdAsync(gameModeId);
+        }
         #endregion
 
         private GameModeModel MapToModel(GameMode gameMode)

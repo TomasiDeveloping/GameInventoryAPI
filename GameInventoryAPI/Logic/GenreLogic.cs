@@ -31,12 +31,26 @@ namespace GameInventoryAPI.Logic
         #endregion
 
         #region Update Functions
+        public async Task<GenreModel> UpdateGenreAsync(GenreModel genreModel)
+        {
+            if (genreModel == null) throw new ArgumentException(Properties.Settings.Default.ObjectNullException);
+            return MapToModel(await repository.UpdateGenreAsync(MapToDbObject(genreModel)));
+        }
         #endregion
 
         #region Insert Functions
+        public async Task<GenreModel> InsertGenreAsync(GenreModel genreModel)
+        {
+            if (genreModel == null) throw new ArgumentException(Properties.Settings.Default.ObjectNullException);
+            return MapToModel(await repository.InsertGenreAsync(MapToDbObject(genreModel)));
+        }
         #endregion
 
         #region Delete Functions
+        public async Task<bool> DeleteGenreByIdAsync(int genreId)
+        {
+            return await repository.DeleteGenreByIdAsync(genreId);
+        }
         #endregion
 
         private GenreModel MapToModel(Genres genre)

@@ -80,12 +80,26 @@ namespace GameInventoryAPI.Logic
         #endregion
 
         #region Update Functions
+        public async Task<GameModel> UpdateGameAsync(GameModel gameModel)
+        {
+            if (gameModel == null) throw new ArgumentException(Properties.Settings.Default.ObjectNullException);
+            return MapToModel(await gameRepository.UpdateGameAsync(MapToDbObject(gameModel)));
+        }
         #endregion
 
         #region Insert Functions
+        public async Task<GameModel> InsertGameAsync(GameModel gameModel)
+        {
+            if (gameModel == null) throw new ArgumentException(Properties.Settings.Default.ObjectNullException);
+            return MapToModel(await gameRepository.InsertGameAsync(MapToDbObject(gameModel)));
+        }
         #endregion
 
         #region Delete Functions
+        public async Task<bool> DeleteGameByIdAsync(int gameId)
+        {
+            return await gameRepository.DeleteGameByIdAsync(gameId);
+        }
         #endregion
 
         private GameModel MapToModel(Games game)

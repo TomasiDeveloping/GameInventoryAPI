@@ -22,10 +22,12 @@ namespace GameInventoryAPI.Entities
             return await context.GameEngines.FindAsync(id);
         }
 
-        public async Task<bool> InsertEngineAsync(GameEngines gameEngine)
+        public async Task<GameEngines> InsertEngineAsync(GameEngines gameEngine)
         {
             context.GameEngines.Add(gameEngine);
-            return await context.SaveChangesAsync() > 0;
+            var check = await context.SaveChangesAsync() > 0;
+            if (!check) return null;
+            return gameEngine;
         }
 
         public async Task<GameEngines> UpdateGameEngineAsync(GameEngines gameEngine)
