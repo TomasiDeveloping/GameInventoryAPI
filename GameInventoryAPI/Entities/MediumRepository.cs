@@ -62,6 +62,8 @@ namespace GameInventoryAPI.Entities
         public async Task<bool> DeleteMediumByIdAsync(int mediumId)
         {
             if (mediumId <= 0) return false;
+            var checkMediumInGames = await context.Game_Medium.Where(m => m.MediumId == mediumId).ToListAsync();
+            if (checkMediumInGames.Count() != 0) throw new ArgumentException("Dieser Mediumtyp wird in Games verwendet und kann nicht gelöscht werden");
 
             var mediumToDelete = await context.Medium.FindAsync(mediumId);
             if (mediumToDelete == null) return false;

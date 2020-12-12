@@ -62,6 +62,8 @@ namespace GameInventoryAPI.Entities
         public async Task<bool> DeletePublisherByIdAsync(int publisherId)
         {
             if (publisherId <= 0) return false;
+            var checkPublisherInGames = await context.Games.Where(g => g.PublisherId == publisherId).ToListAsync();
+            if (checkPublisherInGames.Count() != 0) throw new ArgumentException("Dieser Publisher wird in Games verwendet und kann nicht gelöscht werden");
 
             var publisherToDelete = await context.Publishers.FindAsync(publisherId);
             if (publisherToDelete == null) return false;

@@ -42,6 +42,17 @@ namespace GameInventoryAPI.Entities
 
         public async Task<bool> DeleteEngineByIdAsync(int gameEngineId)
         {
+            // Check if the engine is use in games
+            var checkGames = await context.Games.Where(g => g.GameEngineId == gameEngineId).ToListAsync();
+            if (checkGames.Count() > 0)
+            {
+                // update all games to remove the engine
+                foreach (var game in checkGames)
+                {
+                    game.GameEngineId = null;
+                }
+            }
+
             var engineToDelete = await context.GameEngines.FindAsync(gameEngineId);
 
             if (engineToDelete == null) return false;

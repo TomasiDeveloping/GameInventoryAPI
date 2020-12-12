@@ -54,6 +54,9 @@ namespace GameInventoryAPI.Entities
         #region Delete Functions
         public async Task<bool> DeleteGameModeByIdAsync(int id)
         {
+            var checkGameModeInGames = await context.Game_GameMode.Where(g => g.GameModeId == id).ToListAsync();
+            if (checkGameModeInGames.Count() != 0) throw new ArgumentException("Dieser GameMode wird in Games verwendet und kann nicht gelöscht werden");
+
             var gameModeToDelete = await context.GameMode.FindAsync(id);
             if (gameModeToDelete == null) return false;
             context.GameMode.Remove(gameModeToDelete);

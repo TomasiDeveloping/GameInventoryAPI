@@ -64,6 +64,8 @@ namespace GameInventoryAPI.Entities
         public async Task<bool> DeletePlattformByIdAsync(int plattformId)
         {
             if (plattformId <= 0) return false;
+            var checkPlattformInGames = await context.Game_Plattform.Where(p => p.PlattformId == plattformId).ToListAsync();
+            if (checkPlattformInGames.Count() != 0) throw new ArgumentException("Diese Plattform wird in Games verwendet und kann nicht gelöscht werden");
 
             var plattformToDelete = await context.Plattform.FindAsync(plattformId);
             if (plattformToDelete == null) return false;

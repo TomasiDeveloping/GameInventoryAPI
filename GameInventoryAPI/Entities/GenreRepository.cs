@@ -63,6 +63,8 @@ namespace GameInventoryAPI.Entities
         public async Task<bool> DeleteGenreByIdAsync(int genreId)
         {
             if (genreId <= 0) return false;
+            var checkGameWithGenre = await context.Game_Genre.Where(g => g.GenreId == genreId).ToListAsync();
+            if (checkGameWithGenre.Count() != 0) throw new ArgumentException("Dieses Genre wird in Games verwendet und kann nicht gelöscht werden");
 
             var genreToDelete = await context.Genres.FindAsync(genreId);
             if (genreToDelete == null) return false;

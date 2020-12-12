@@ -93,12 +93,52 @@ namespace GameInventoryAPI.Logic
             if (gameModel == null) throw new ArgumentException(Properties.Settings.Default.ObjectNullException);
             return MapToModel(await gameRepository.InsertGameAsync(MapToDbObject(gameModel)));
         }
+
+        public async Task<bool> InsertPlattformToGame(int gameId, int plattformId)
+        {
+            return await gameRepository.InsertPlattformToGameAsync(gameId, plattformId);
+        }
+
+        public async Task<bool> InsertGenreToGame(int gameId, int genreId)
+        {
+            return await gameRepository.InsertGenreToGameAsync(gameId, genreId);
+        }
+
+        public async Task<bool> InsertMediumToGame(int gameId, int mediumId)
+        {
+            return await gameRepository.InsertMediumToGameAsync(gameId, mediumId);
+        }
+
+        public async Task<bool> InsertGameModeToGame(int gameId, int gameModeId)
+        {
+            return await gameRepository.InsertGameModeToGameAsync(gameId, gameModeId);
+        }
         #endregion
 
         #region Delete Functions
         public async Task<bool> DeleteGameByIdAsync(int gameId)
         {
             return await gameRepository.DeleteGameByIdAsync(gameId);
+        }
+
+        public async Task<bool> RemovePlattformFromGame(int gameId, int plattformId)
+        {
+            return await gameRepository.RemovePlattformFromGame(gameId, plattformId);
+        }
+
+        public async Task<bool> RemoveGenreFromGame(int gameId, int genreId)
+        {
+            return await gameRepository.RemoveGenreFromGameAsync(gameId, genreId);
+        }
+
+        public async Task<bool> RemoveMediumFromGame(int gameId, int mediumId)
+        {
+            return await gameRepository.RemoveMediumFromGameAsync(gameId, mediumId);
+        }
+
+        public async Task<bool> RemoveGameModeFromGame(int gameId, int gameModeId)
+        {
+            return await gameRepository.RemoveGameModeFromGameAsync(gameId, gameModeId);
         }
         #endregion
 
