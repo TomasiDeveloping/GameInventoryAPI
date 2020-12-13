@@ -151,6 +151,28 @@ namespace GameInventoryAPI.Logic
         }
         #endregion
 
+        #region Helper
+        public async Task<bool> CheckPlattformExists(int gameId, int plattformId)
+        {
+            return await gameRepository.CheckPlattformExistsAsync(gameId, plattformId);
+        }
+
+        public async Task<bool> CheckGameModeExitsAsync(int gameId, int gameModeId)
+        {
+            return await gameRepository.CheckGameModeExistsAsync(gameId, gameModeId);
+        }
+
+        public async Task<bool> CheckGenreExitst(int gameId, int genreId)
+        {
+            return await gameRepository.CheckGenreExistsAsync(gameId, genreId);
+        }
+
+        public async Task<bool> CheckMediumExitsAsync(int gameId, int mediumId)
+        {
+            return await gameRepository.CheckMediumExits(gameId, mediumId);
+        }
+        #endregion
+
         private GameModel MapToModel(Games game)
         {
             return new GameModel

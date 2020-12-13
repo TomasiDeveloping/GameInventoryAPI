@@ -150,6 +150,8 @@ namespace GameInventoryAPI.Controllers
             try
             {
                 if (gameId <= 0 || plattformId <= 0) return BadRequest("Fehler mit IDs");
+                var checkPlattformExist = await gameLogic.CheckPlattformExists(gameId, plattformId);
+                if (checkPlattformExist) return BadRequest("Plattform existiert bereits bei diesem Game");
 
                 var checkAddPlattform = await gameLogic.InsertPlattformToGame(gameId, plattformId);
                 if (!checkAddPlattform) return BadRequest("Fehler beim hinzufügen der Plattform");
@@ -168,6 +170,8 @@ namespace GameInventoryAPI.Controllers
             try
             {
                 if (gameId <= 0 || mediumId <= 0) return BadRequest("Ids Fehler");
+                var checkMediumExists = await gameLogic.CheckMediumExitsAsync(gameId, mediumId);
+                if (checkMediumExists) return BadRequest("Medium existiert bereits bei diesem Game");
 
                 var checkAddMedium = await gameLogic.InsertMediumToGame(gameId, mediumId);
                 if (!checkAddMedium) return BadRequest("Fehler: Medium konnte nicht hinzugefügt werden");
@@ -186,6 +190,8 @@ namespace GameInventoryAPI.Controllers
             try
             {
                 if (gameId <= 0 || genreId <= 0) return BadRequest("Ids Fehler");
+                var checkGenreExits = await gameLogic.CheckGenreExitst(gameId, genreId);
+                if (checkGenreExits) return BadRequest("Genre existiert bereits bei diesem Game");
 
                 var checkAddGenre = await gameLogic.InsertGenreToGame(gameId, genreId);
                 if (!checkAddGenre) return BadRequest("Fehler: Genre konnte nicht hinzugefügt werden");
@@ -203,6 +209,8 @@ namespace GameInventoryAPI.Controllers
             try
             {
                 if (gameId <= 0 || gameModeId <= 0) return BadRequest("Ids Fehler");
+                var checkGameModeExists = await gameLogic.CheckGameModeExitsAsync(gameId, gameModeId);
+                if (checkGameModeExists) return BadRequest("Game Mode existiert bereits nei diesem Game");
 
                 var checkAddGameMode = await gameLogic.InsertGameModeToGame(gameId, gameModeId);
                 if (!checkAddGameMode) return BadRequest("Fehler: Game Mode konnte nicht hinzugefügt werden");

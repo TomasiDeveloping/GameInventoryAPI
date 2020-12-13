@@ -104,7 +104,7 @@ namespace GameInventoryAPI.Controllers
      
         }
 
-        [HttpDelete, Route("ForceDelete")]
+        [HttpDelete, Route("{id}/ForceDelete")]
         public async Task<IHttpActionResult> ForceDelete(int id)
         {
             try

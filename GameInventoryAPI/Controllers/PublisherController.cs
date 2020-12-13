@@ -74,6 +74,7 @@ namespace GameInventoryAPI.Controllers
             try
             {
                 if (id <= 0) return BadRequest("Keine Id");
+                publisherModel.PublisherId = id;
                 if (publisherModel == null) return BadRequest("Kein Publsiher zum updaten");
 
                 var checkUpdate = await publisherLogic.UpdatePublisherAsync(publisherModel);

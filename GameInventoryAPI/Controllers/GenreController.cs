@@ -57,7 +57,7 @@ namespace GameInventoryAPI.Controllers
                 var checkInsert = await genreLogic.InsertGenreAsync(genreModel);
                 if (checkInsert == null) return BadRequest("Fehler beim Insert");
 
-                return Ok(genreModel);
+                return Ok(checkInsert);
             }
             catch (Exception ex)
             {
@@ -73,6 +73,7 @@ namespace GameInventoryAPI.Controllers
             try
             {
                 if (id <= 0) return BadRequest("Keine Id");
+                genreModel.GenreId = id;
                 if (genreModel == null) return BadRequest("Kein Genre zum Updaten");
 
                 var checkUpdate = await genreLogic.UpdateGenreAsync(genreModel);
@@ -106,7 +107,7 @@ namespace GameInventoryAPI.Controllers
             }
         }
 
-        [HttpDelete, Route("ForceDelete")]
+        [HttpDelete, Route("{id}/ForceDelete")]
         public async Task<IHttpActionResult> ForceDelete(int id)
         {
             try

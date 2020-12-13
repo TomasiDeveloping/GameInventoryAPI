@@ -120,7 +120,7 @@ namespace GameInventoryAPI.Entities
         public async Task<bool> InsertGenreToGameAsync(int gameId, int genreId)
         {
             if (gameId <= 0 || genreId <= 0) return false;
-            var game_Genre = new Game_Genre { GameId = gameId, GenreId = gameId };
+            var game_Genre = new Game_Genre { GameId = gameId, GenreId = genreId };
             context.Game_Genre.Add(game_Genre);
             return await context.SaveChangesAsync() > 0;
         }
@@ -212,7 +212,7 @@ namespace GameInventoryAPI.Entities
         public async Task<bool> RemoveGenreFromGameAsync(int gameId, int genreId)
         {
             if (gameId <= 0 || genreId <= 0) return false;
-            var gameGenreToRemove = await context.Game_Genre.FirstOrDefaultAsync(g => g.GameId == gameId && g.GameId == genreId);
+            var gameGenreToRemove = await context.Game_Genre.FirstOrDefaultAsync(g => g.GameId == gameId && g.GenreId == genreId);
 
             if (gameGenreToRemove == null) throw new ArgumentException("Kein Genre gefunden");
             context.Game_Genre.Remove(gameGenreToRemove);
@@ -227,6 +227,32 @@ namespace GameInventoryAPI.Entities
             if (gameMediumToRemove == null) throw new ArgumentException("Kein Medium gefunden");
             context.Game_Medium.Remove(gameMediumToRemove);
             return await context.SaveChangesAsync() > 0;
+        }
+        #endregion
+
+        #region Helper
+        public async Task<bool> CheckPlattformExistsAsync(int gameId, int plattformId)
+        {
+            var plattformCheck = await context.Game_Plattform.FirstOrDefaultAsync(g => g.GameId == gameId && g.PlattformId == plattformId);
+            return plattformCheck == null ? false : true;
+        }
+
+        public async Task<bool> CheckGameModeExistsAsync(int gameId, int gameModeId)
+        {
+            var gameModeToCheck = await context.Game_GameMode.FirstOrDefaultAsync(g => g.GameId == gameId && g.GameModeId == gameModeId);
+            return gameModeToCheck == null ? false : true;
+        }
+
+        public async Task<bool> CheckGenreExistsAsync(int gameId, int genreId)
+        {
+            var genreToCheck = await context.Game_Genre.FirstOrDefaultAsync(g => g.GameId == gameId && g.GenreId == genreId);
+            return genreToCheck == null ? false : true;
+        }
+
+        public async Task<bool> CheckMediumExits(int gameId, int mediumId)
+        {
+            var mediumToCheck = await context.Game_Medium.FirstOrDefaultAsync(g => g.GameId == gameId && g.MediumId == mediumId);
+            return mediumToCheck == null ? false : true;
         }
         #endregion
     }

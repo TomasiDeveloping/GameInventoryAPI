@@ -74,6 +74,7 @@ namespace GameInventoryAPI.Controllers
             try
             {
                 if (id <= 0) return BadRequest("Keine Id");
+                mediumModel.MediumId = id;
                 if (mediumModel == null) return BadRequest("Kein Medium zum Updaten");
 
                 var checkUpdate = await logic.UpdateMediumAsync(mediumModel);
@@ -107,7 +108,7 @@ namespace GameInventoryAPI.Controllers
             }
         }
 
-        [HttpDelete, Route("ForceDelete")]
+        [HttpDelete, Route("{id}/ForceDelete")]
         public async Task<IHttpActionResult> ForceDelete(int id)
         {
             try

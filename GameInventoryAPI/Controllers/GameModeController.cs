@@ -74,6 +74,7 @@ namespace GameInventoryAPI.Controllers
             {
                 if (gameModeModel == null) return BadRequest("Kein Game Mode zum Updaten");
                 if (id <= 0) return BadRequest("Keine Id");
+                gameModeModel.GameModeId = id;
                 var checkUpdate = await logic.UpdateGameModeAsync(gameModeModel);
 
                 if (checkUpdate == null) return BadRequest("Fehler beim Update");
@@ -105,7 +106,7 @@ namespace GameInventoryAPI.Controllers
             }
         }
 
-        [HttpDelete, Route("ForceDelete")]
+        [HttpDelete, Route("{id}/ForceDelete")]
         public async Task<IHttpActionResult> ForceDelete(int id)
         {
             try

@@ -73,6 +73,7 @@ namespace GameInventoryAPI.Controllers
             try
             {
                 if (id <= 0) return BadRequest("Keine Id");
+                plattformModel.PlattformId = id;
                 if (plattformModel == null) return BadRequest("Keine Plafftorm zum aktuallisieren");
 
                 var checkUpdate = await logic.UpdatePlattformAsync(plattformModel);
@@ -107,7 +108,7 @@ namespace GameInventoryAPI.Controllers
             }
         }
 
-        [HttpDelete, Route("ForceDelete")]
+        [HttpDelete, Route("{id}/ForceDelete")]
         public async Task<IHttpActionResult> ForceDelete(int id)
         {
             try
