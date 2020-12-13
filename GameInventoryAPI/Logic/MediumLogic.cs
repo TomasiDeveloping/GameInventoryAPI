@@ -28,6 +28,13 @@ namespace GameInventoryAPI.Logic
             if (medium == null) return null;
             return MapToModel(medium);
         }
+
+        public async Task<MediumModel> GetMediumByNameAsync(string mediumName)
+        {
+            var medium = await repository.GetMediumByNameAsync(mediumName);
+            if (medium == null) return null;
+            return MapToModel(medium);
+        }
         #endregion
 
         #region Update Functions
@@ -50,6 +57,11 @@ namespace GameInventoryAPI.Logic
         public async Task<bool> DeleteMediumByIdAsync(int mediumId)
         {
             return await repository.DeleteMediumByIdAsync(mediumId);
+        }
+
+        public async Task<bool> ForceDeleteMediumByIdAsync(int mediumId)
+        {
+            return await repository.ForceDeleteMediumByIdAsync(mediumId);
         }
         #endregion
 

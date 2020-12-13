@@ -28,6 +28,13 @@ namespace GameInventoryAPI.Logic
             if (genre == null) return null;
             return MapToModel(genre);
         }
+
+        public async Task<GenreModel> GetGenreByNameAsync(string genreName)
+        {
+            var genre = await repository.GetGenreByNameAsync(genreName);
+            if (genre == null) return null;
+            return MapToModel(genre);
+        }
         #endregion
 
         #region Update Functions
@@ -50,6 +57,11 @@ namespace GameInventoryAPI.Logic
         public async Task<bool> DeleteGenreByIdAsync(int genreId)
         {
             return await repository.DeleteGenreByIdAsync(genreId);
+        }
+
+        public async Task<bool> ForceDelteGenreByIdAsync(int genreId)
+        {
+            return await repository.ForecDeleteGenreByIdAsync(genreId);
         }
         #endregion
 

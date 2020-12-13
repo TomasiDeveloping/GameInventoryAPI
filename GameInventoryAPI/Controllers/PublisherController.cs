@@ -1,4 +1,5 @@
 ﻿using GameInventoryAPI.Logic;
+using GameInventoryAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,12 +45,67 @@ namespace GameInventoryAPI.Controllers
         #endregion
 
         #region POST
+        [HttpPost]
+        public async Task<IHttpActionResult> Post(PublisherModel publisherModel)
+        {
+            try
+            {
+                if (publisherModel == null) return BadRequest("Kein Publisher zum hinzufügen");
+                var checkName = await publisherLogic.GetPublisherByNameAsync(publisherModel.Name);
+
+                if (checkName != null) return BadRequest("Publisher mit dem Namen " + publisherModel.Name + " existiert bereits");
+
+                var checkInsert = await publisherLogic.InsertPublisherAsync(publisherModel);
+                if (checkInsert == null) return BadRequest("Fehler beim hinzufügen");
+
+                return Ok(checkInsert);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         #endregion
 
         #region PUT
+        [HttpPut]
+        public async Task<IHttpActionResult> Put(int id, PublisherModel publisherModel)
+        {
+            try
+            {
+                if (id <= 0) return BadRequest("Keine Id");
+                if (publisherModel == null) return BadRequest("Kein Publsiher zum updaten");
+
+                var checkUpdate = await publisherLogic.UpdatePublisherAsync(publisherModel);
+                if (checkUpdate == null) return BadRequest("Fehler beim update");
+
+                return Ok(checkUpdate);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         #endregion
 
         #region DELETE
+        [HttpDelete]
+        public async Task<IHttpActionResult> Delete(int id)
+        {
+            try
+            {
+                if (id <= 0) return BadRequest("Keine Id");
+
+                var checkDelete = await publisherLogic.DeletePublisherByIdAsync(id);
+                if (!checkDelete) return BadRequest("Fehler beim löschen");
+
+                return Ok("Publisher erfolgreich gelöscht");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         #endregion
     }
 }

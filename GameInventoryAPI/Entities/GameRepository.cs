@@ -53,6 +53,11 @@ namespace GameInventoryAPI.Entities
             return await context.Games.Where(g => g.GameEngineId == engineId).ToListAsync();
         }
 
+        public async Task<Games> GetGameByNameAsync(string gameName)
+        {
+            return await context.Games.FirstOrDefaultAsync(g => g.Name.Equals(gameName));
+        }
+
         #endregion
 
         #region Update Functions

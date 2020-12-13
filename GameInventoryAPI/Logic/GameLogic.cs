@@ -12,6 +12,8 @@ namespace GameInventoryAPI.Logic
     public class GameLogic
     {
         private readonly GameRepository gameRepository = new GameRepository();
+        private readonly PublisherRepository publisherRepository = new PublisherRepository();
+        private readonly EngineRepository engineRepository = new EngineRepository();
 
         #region Get Functions
         public async Task<IEnumerable<GameModel>> GetGamesAsync()
@@ -76,6 +78,13 @@ namespace GameInventoryAPI.Logic
             var modelList = new List<GameModel>();
             foreach (var item in games) modelList.Add(MapToModel(item));
             return modelList;
+        }
+
+        public async Task<GameModel> GetGameByNameAsync(string gameName)
+        {
+            var game = await gameRepository.GetGameByNameAsync(gameName);
+            if (game == null) return null;
+            return MapToModel(game);
         }
         #endregion
 
@@ -149,13 +158,13 @@ namespace GameInventoryAPI.Logic
                 GameId = game.GameId,
                 Name = game.Name,
                 GameEngineId = game.GameEngineId,
-                PublisherName = game.Publishers.Name,
+                PublisherName = publisherRepository.GetPublisherNameById(game.PublisherId),
                 PublisherId = game.PublisherId,
                 AgeRating = game.AgeRating,
                 CoverUrl = game.CoverUrl,
                 Description = game.Description,
                 FirstPublication = game.FirstPublication,
-                GameEngineName = game.GameEngines?.Name,
+                GameEngineName = game.GameEngineId.HasValue ? engineRepository.GetEngineNameById(game.GameEngineId.Value) : "",
                 Information = game.Information,
                 Plattforms = game.Game_Plattform?.Select(p => new GameModelPlattform { PlattformName = p.Plattform.Name }).ToList(),
                 GameModes = game.Game_GameMode?.Select(m => new GameModelGameMode { GameModeName = m.GameMode.Name }).ToList(),

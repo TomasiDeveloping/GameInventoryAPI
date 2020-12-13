@@ -24,6 +24,11 @@ namespace GameInventoryAPI.Entities
             return await context.Medium.FindAsync(id);
         }
 
+        public async Task<Medium> GetMediumByNameAsync(string mediumName)
+        {
+            return await context.Medium.FirstOrDefaultAsync(m => m.Name.Equals(mediumName));
+        }
+
         #endregion
 
         #region Update Functions
@@ -68,6 +73,25 @@ namespace GameInventoryAPI.Entities
             var mediumToDelete = await context.Medium.FindAsync(mediumId);
             if (mediumToDelete == null) return false;
 
+            context.Medium.Remove(mediumToDelete);
+
+            return await context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> ForceDeleteMediumByIdAsync(int mediumId)
+        {
+            var mediumToDelete = await context.Medium.FindAsync(mediumId);
+            if (mediumToDelete == null) return false;
+
+            var gamesWhitMedium = await context.Game_Medium.Where(m => m.MediumId == mediumId).ToListAsync();
+            if (gamesWhitMedium.Count() != 0)
+            {
+                foreach (var item in gamesWhitMedium)
+                {
+                    var medium = await context.Game_Medium.FindAsync(item.GameMediumId);
+                    context.Game_Medium.Remove(medium);
+                }
+            }
             context.Medium.Remove(mediumToDelete);
 
             return await context.SaveChangesAsync() > 0;

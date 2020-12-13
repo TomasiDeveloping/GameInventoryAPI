@@ -24,6 +24,16 @@ namespace GameInventoryAPI.Entities
             return await context.Publishers.FindAsync(id);
         }
 
+        public async Task<Publishers> GetPublisherByNameAsync(string publisherName)
+        {
+            return await context.Publishers.FirstOrDefaultAsync(p => p.Name.Equals(publisherName));
+        }
+
+        public string GetPublisherNameById(int publisherId)
+        {
+            return context.Publishers.Find(publisherId).Name;
+        }
+
         #endregion
 
         #region Update Functions

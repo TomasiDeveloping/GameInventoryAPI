@@ -1,4 +1,5 @@
 ﻿using GameInventoryAPI.Logic;
+using GameInventoryAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,12 +45,84 @@ namespace GameInventoryAPI.Controllers
         #endregion
 
         #region POST
+        [HttpPost]
+        public async Task<IHttpActionResult> Post(MediumModel mediumModel)
+        {
+            try
+            {
+                if (mediumModel == null) return BadRequest("Kein Medium zum hinzufügen");
+                var checkName = await logic.GetMediumByNameAsync(mediumModel.Name);
+                if (checkName != null) return BadRequest("Medium mit dem Namen " + mediumModel.Name + " exisitiert bereits");
+
+                var checkInsert = await logic.InsertMediumAsync(mediumModel);
+
+                if (checkInsert == null) return BadRequest("Fehler beim hinzufügen");
+
+                return Ok(checkInsert);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         #endregion
 
         #region PUT
+        [HttpPut]
+        public async Task<IHttpActionResult> Put(int id, MediumModel mediumModel)
+        {
+            try
+            {
+                if (id <= 0) return BadRequest("Keine Id");
+                if (mediumModel == null) return BadRequest("Kein Medium zum Updaten");
+
+                var checkUpdate = await logic.UpdateMediumAsync(mediumModel);
+                if (checkUpdate == null) return BadRequest("Fehler beim Updaten");
+
+                return Ok(checkUpdate);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         #endregion
 
         #region DELETE
+        [HttpDelete]
+        public async Task<IHttpActionResult> Delete(int id)
+        {
+            try
+            {
+                if (id <= 0) return BadRequest("Keine Id");
+                var checkDelete = await logic.DeleteMediumByIdAsync(id);
+
+                if (!checkDelete) return BadRequest("Fehler beim löschen");
+
+                return Ok("Medium erfolgreich gelöscht");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete, Route("ForceDelete")]
+        public async Task<IHttpActionResult> ForceDelete(int id)
+        {
+            try
+            {
+                if (id <= 0) return BadRequest("Keine Id");
+                var checkDelete = await logic.ForceDeleteMediumByIdAsync(id);
+                if (!checkDelete) return BadRequest("Fehler beim löschen");
+
+                return Ok("Force Delete erfolgreich");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         #endregion
     }
 }

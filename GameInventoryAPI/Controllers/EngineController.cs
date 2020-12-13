@@ -50,6 +50,10 @@ namespace GameInventoryAPI.Controllers
         {
             try
             {
+                if (gameEngineModel == null) return BadRequest("Keine Engin zum hinzufügen");
+                var checkName = await logic.GetEngineByNameAsync(gameEngineModel.Name);
+                if (checkName != null) return BadRequest("Engine mit dem Namen " + gameEngineModel.Name + " existiert bereits");
+
                 var newGameEngine = await logic.InsertEngineAsync(gameEngineModel);
 
                 if (newGameEngine == null) return BadRequest("Fehler beim hinzufügen");
@@ -98,6 +102,24 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
      
+        }
+
+        [HttpDelete, Route("ForceDelete")]
+        public async Task<IHttpActionResult> ForceDelete(int id)
+        {
+            try
+            {
+                if (id <= 0) return BadRequest("Keine Id");
+                var checkDelete = await logic.ForceDeleteEngineByIdAsync(id);
+
+                if (!checkDelete) return BadRequest("Fehler beim löschen");
+
+                return Ok("Engine erfolgreich gelöscht");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         #endregion
     }

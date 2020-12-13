@@ -28,6 +28,13 @@ namespace GameInventoryAPI.Logic
             if (publisher == null) return null;
             return MapToModel(publisher);
         }
+
+        public async Task<PublisherModel> GetPublisherByNameAsync(string publisherName)
+        {
+            var publisher = await repository.GetPublisherByNameAsync(publisherName);
+            if (publisher == null) return null;
+            return MapToModel(publisher);
+        }
         #endregion
 
         #region Update Functions

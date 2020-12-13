@@ -24,6 +24,11 @@ namespace GameInventoryAPI.Entities
             return await context.GameMode.FindAsync(id);
         }
 
+        public async Task<GameMode> GetGameModeByNameAsync(string gameModeName)
+        {
+            return await context.GameMode.FirstOrDefaultAsync(m => m.Name.Equals(gameModeName));
+        }
+
         #endregion
 
         #region Update Functions
@@ -60,6 +65,26 @@ namespace GameInventoryAPI.Entities
             var gameModeToDelete = await context.GameMode.FindAsync(id);
             if (gameModeToDelete == null) return false;
             context.GameMode.Remove(gameModeToDelete);
+            return await context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> ForceDeleteGameModeByIdAsync(int gameModeId)
+        {
+            var checkGameMode = await context.GameMode.FindAsync(gameModeId);
+            if (checkGameMode == null) return false;
+
+            var gamesWhitGameModes = await context.Game_GameMode.Where(m => m.GameModeId == gameModeId).ToListAsync();
+
+            if (gamesWhitGameModes.Count() != 0)
+            {
+                foreach (var mode in gamesWhitGameModes)
+                {
+                    var gameMode = await context.Game_GameMode.FindAsync(mode.GameGameModeId);
+                    context.Game_GameMode.Remove(gameMode);
+                }
+            }
+            context.GameMode.Remove(checkGameMode);
+
             return await context.SaveChangesAsync() > 0;
         }
         #endregion

@@ -24,6 +24,12 @@ namespace GameInventoryAPI.Entities
             return await context.Genres.FindAsync(id);
         }
 
+        public async Task<Genres> GetGenreByNameAsync(string genreName)
+        {
+            return await context.Genres.FirstOrDefaultAsync(g => g.Name.Equals(genreName));
+        }
+
+
         #endregion
 
         #region Update Functions
@@ -70,6 +76,26 @@ namespace GameInventoryAPI.Entities
             if (genreToDelete == null) return false;
 
             context.Genres.Remove(genreToDelete);
+            return await context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> ForecDeleteGenreByIdAsync(int genreId)
+        {
+            var checkGenreToDelete = await context.Genres.FindAsync(genreId);
+            if (checkGenreToDelete == null) return false;
+
+            var gamesWhitGenres = await context.Game_Genre.Where(g => g.GenreId == genreId).ToListAsync();
+
+            if (gamesWhitGenres.Count() != 0)
+            {
+                foreach (var item in gamesWhitGenres)
+                {
+                    var genre = await context.Game_Genre.FindAsync(item.GameGenreId);
+                    context.Game_Genre.Remove(genre);
+                }
+            }
+
+            context.Genres.Remove(checkGenreToDelete);
             return await context.SaveChangesAsync() > 0;
         }
         #endregion

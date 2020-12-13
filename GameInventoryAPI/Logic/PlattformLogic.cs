@@ -28,6 +28,13 @@ namespace GameInventoryAPI.Logic
             if (plattform == null) return null;
             return MapToModel(plattform);
         }
+
+        public async Task<PlattformModel> GetPlattformByNameAsync(string plattformName)
+        {
+            var plattform = await repository.GetPlattformByNameAsync(plattformName);
+            if (plattform == null) return null;
+            return MapToModel(plattform);
+        }
         #endregion
 
         #region Update Functions
@@ -50,6 +57,11 @@ namespace GameInventoryAPI.Logic
         public async Task<bool> DeletePlattformByIdAsync(int plattformId)
         {
             return await repository.DeletePlattformByIdAsync(plattformId);
+        }
+
+        public async Task<bool> ForceDeletePlattformByIdAsync(int plattformId)
+        {
+            return await repository.ForceDeletePlattformByIdAsync(plattformId);
         }
         #endregion
 

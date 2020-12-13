@@ -28,6 +28,13 @@ namespace GameInventoryAPI.Logic
             if (gameMode == null) return null;
             return MapToModel(gameMode);
         }
+
+        public async Task<GameModeModel> GetGameModeByNameAsyn(string gameModeName)
+        {
+            var gameMode = await repository.GetGameModeByNameAsync(gameModeName);
+            if (gameMode == null) return null;
+            return MapToModel(gameMode);
+        }
         #endregion
 
         #region Update Functions
@@ -50,6 +57,11 @@ namespace GameInventoryAPI.Logic
         public async Task<bool> DeleteGameModeById(int gameModeId)
         {
             return await repository.DeleteGameModeByIdAsync(gameModeId);
+        }
+
+        public async Task<bool> ForceDeleteGameModeByIdAsync(int gameModeId)
+        {
+            return await repository.ForceDeleteGameModeByIdAsync(gameModeId);
         }
         #endregion
 

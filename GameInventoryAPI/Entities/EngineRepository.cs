@@ -10,6 +10,7 @@ namespace GameInventoryAPI.Entities
 {
     public class EngineRepository
     {
+        #region GET
         private readonly GameInventoryEntities context = new GameInventoryEntities();
 
         public async Task<IEnumerable<GameEngines>> GetEnginesAsync()
@@ -22,6 +23,18 @@ namespace GameInventoryAPI.Entities
             return await context.GameEngines.FindAsync(id);
         }
 
+        public async Task<GameEngines> GetEngineByNameAsync(string engineName)
+        {
+            return await context.GameEngines.FirstOrDefaultAsync(e => e.Name.Equals(engineName));
+        }
+
+        public string GetEngineNameById(int engineId)
+        {
+            return context.GameEngines.Find(engineId).Name;
+        }
+        #endregion
+
+        #region INSERT
         public async Task<GameEngines> InsertEngineAsync(GameEngines gameEngine)
         {
             context.GameEngines.Add(gameEngine);
@@ -29,7 +42,9 @@ namespace GameInventoryAPI.Entities
             if (!check) return null;
             return gameEngine;
         }
+        #endregion
 
+        #region UPDATE
         public async Task<GameEngines> UpdateGameEngineAsync(GameEngines gameEngine)
         {
             var engineToUpdate = await context.GameEngines.FindAsync(gameEngine.GameEngineId);
@@ -39,8 +54,24 @@ namespace GameInventoryAPI.Entities
             await context.SaveChangesAsync();
             return engineToUpdate;
         }
+        #endregion
 
+        #region DELETE
         public async Task<bool> DeleteEngineByIdAsync(int gameEngineId)
+        {
+            if (gameEngineId <= 0) return false;
+
+            var checkGamesWhitEngine = await context.Games.Where(e => e.GameEngineId == gameEngineId).ToListAsync();
+            if (checkGamesWhitEngine.Count() != 0) throw new ArgumentException("Engine wird bei Games verwendet");
+
+            var engineToDelete = await context.GameEngines.FindAsync(gameEngineId);
+            if (engineToDelete == null) return false;
+            context.GameEngines.Remove(engineToDelete);
+
+            return await context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> ForceDeleteEngineByIdAsync(int gameEngineId)
         {
             // Check if the engine is use in games
             var checkGames = await context.Games.Where(g => g.GameEngineId == gameEngineId).ToListAsync();
@@ -59,5 +90,6 @@ namespace GameInventoryAPI.Entities
             context.GameEngines.Remove(engineToDelete);
             return await context.SaveChangesAsync() > 0;
         }
+        #endregion
     }
 }

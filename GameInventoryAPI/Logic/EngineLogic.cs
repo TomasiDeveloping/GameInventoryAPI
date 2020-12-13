@@ -28,6 +28,13 @@ namespace GameInventoryAPI.Logic
             if (engine == null) return null;
             return MapToModel(engine);
         }
+
+        public async Task<GameEngineModel> GetEngineByNameAsync(string engineName)
+        {
+            var engine = await repository.GetEngineByNameAsync(engineName);
+            if (engine == null) return null;
+            return MapToModel(engine);
+        }
         #endregion
 
         #region Update Functions
@@ -50,6 +57,11 @@ namespace GameInventoryAPI.Logic
         public async Task<bool> DeleteEngineByIdAsync(int engineId)
         {
             return await repository.DeleteEngineByIdAsync(engineId);
+        }
+
+        public async Task<bool> ForceDeleteEngineByIdAsync(int engineId)
+        {
+            return await repository.ForceDeleteEngineByIdAsync(engineId);
         }
         #endregion
 

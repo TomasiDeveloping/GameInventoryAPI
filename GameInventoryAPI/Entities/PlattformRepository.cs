@@ -24,6 +24,11 @@ namespace GameInventoryAPI.Entities
             return await context.Plattform.FindAsync(id);
         }
 
+        public async Task<Plattform> GetPlattformByNameAsync(string plattformName)
+        {
+            return await context.Plattform.FirstOrDefaultAsync(p => p.Name.Equals(plattformName));
+        }
+
         #endregion
 
         #region Update Functions
@@ -70,6 +75,26 @@ namespace GameInventoryAPI.Entities
             var plattformToDelete = await context.Plattform.FindAsync(plattformId);
             if (plattformToDelete == null) return false;
 
+            context.Plattform.Remove(plattformToDelete);
+
+            return await context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> ForceDeletePlattformByIdAsync(int plattformId)
+        {
+            var plattformToDelete = await context.Plattform.FindAsync(plattformId);
+            if (plattformToDelete == null) return false;
+
+            var gamesWhitPlattform = await context.Game_Plattform.Where(p => p.PlattformId == plattformId).ToListAsync();
+
+            if (gamesWhitPlattform.Count() != 0)
+            {
+                foreach (var item in gamesWhitPlattform)
+                {
+                    var plattform = await context.Game_Plattform.FindAsync(item.GamePlattformId);
+                    context.Game_Plattform.Remove(plattform);
+                }
+            }
             context.Plattform.Remove(plattformToDelete);
 
             return await context.SaveChangesAsync() > 0;
