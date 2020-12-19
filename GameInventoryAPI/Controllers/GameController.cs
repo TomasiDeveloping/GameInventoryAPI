@@ -43,6 +43,47 @@ namespace GameInventoryAPI.Controllers
       
         }
 
+        [HttpGet, Route("GameDto")]
+        public async Task<IHttpActionResult> GetGamesDto()
+        {
+            try
+            {
+                return Ok(await gameLogic.GetGamesDtoAsync());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet, Route("Names")]
+        public async Task<IHttpActionResult> GetGameNamesAndId()
+        {
+            try
+            {
+                return Ok(await gameLogic.GetGamesWithNameAndIdAsync());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet, Route("ByParams")]
+        public async Task<IHttpActionResult> GetGamesByParams([FromUri] GameFilterParams filterParams)
+        {
+            try
+            {
+                var games = await gameLogic.GetGamesByFilterParamsAsync(filterParams);
+                if (games == null) return BadRequest("Fehler beim suchen");
+                return Ok(games);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet, Route("Plattform/{plattformId}")]
         public async Task<IHttpActionResult> GetGamesByPlattformId(int plattformId)
         {

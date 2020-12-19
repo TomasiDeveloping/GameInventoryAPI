@@ -1,4 +1,5 @@
 ﻿using GameInventoryAPI.Data;
+using GameInventoryAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,14 +19,48 @@ namespace GameInventoryAPI.Entities
             return await context.Games.ToListAsync();
         }
 
+        public async Task<IEnumerable<GameDto>> GetGamesDtoAsync()
+        {
+            return await context.Games
+                .Select(g => new GameDto
+                {
+                    GameId = g.GameId,
+                    GameName = g.Name,
+                    CoverUrl = g.CoverUrl,
+                    FirstPublication = g.FirstPublication,
+                    PublisherName = g.Publishers.Name
+                })
+                .ToListAsync();
+        }
+
+
+        public async Task<IEnumerable<GameNameAndId>> GetGamesNameAndIdAsync()
+        {
+            return await context.Games.Select(x => new GameNameAndId
+            {
+                GameName = x.Name,
+                GameId = x.GameId
+            }).ToListAsync();
+        }
+
         public async Task<Games> GetGameByIdAsync(int gameId)
         {
             return await context.Games.FindAsync(gameId);
         }
 
-        public async Task<IEnumerable<Games>> GetGamesByPlattformIdAsync(int plattformId)
+        public async Task<IEnumerable<GameDto>> GetGamesByPlattformIdAsync(int plattformId)
         {
-            return await context.Games.Where(g => g.Game_Plattform.Any(x => x.PlattformId == plattformId)).ToListAsync();
+            return await context.Games
+                .Where(g => g.Game_Plattform.Any(x => x.PlattformId == plattformId))
+                .Select(g => new GameDto
+                {
+                   CoverUrl = g.CoverUrl,
+                   FirstPublication = g.FirstPublication,
+                   GameId = g.GameId,
+                   GameName = g.Name,
+                   PublisherName = g.Publishers.Name
+                })
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Games>> GetGamesByPublisherIdAsync(int publisherId)
@@ -33,19 +68,109 @@ namespace GameInventoryAPI.Entities
             return await context.Games.Where(g => g.PublisherId == publisherId).ToListAsync();
         }
 
-        public async Task<IEnumerable<Games>> GetGamesByMediumIdAsync(int mediumId)
+        public async Task<IEnumerable<GameDto>> GetGamesByMediumIdAsync(int mediumId)
         {
-            return await context.Games.Where(g => g.Game_Medium.Any(x => x.MediumId == mediumId)).ToListAsync();
+            return await context.Games
+                .Where(g => g.Game_Medium.Any(m => m.MediumId == mediumId))
+                .Select(g => new GameDto
+                {
+                    CoverUrl = g.CoverUrl,
+                    FirstPublication = g.FirstPublication,
+                    GameId = g.GameId,
+                    GameName = g.Name,
+                    PublisherName = g.Publishers.Name
+                }).ToListAsync();
         }
 
-        public async Task<IEnumerable<Games>> GetGamesByGenreIdAsync(int genreId)
+        public async Task<IEnumerable<GameDto>> GetGamesByGenreIdAsync(int genreId)
         {
-            return await context.Games.Where(g => g.Game_Genre.Any(x => x.GenreId == genreId)).ToListAsync();
+            return await context.Games
+                .Where(g => g.Game_Genre.Any(x => x.GenreId == genreId))
+                .Select(g => new GameDto
+                {
+                    CoverUrl = g.CoverUrl,
+                    FirstPublication = g.FirstPublication,
+                    GameId = g.GameId,
+                    GameName = g.Name,
+                    PublisherName = g.Publishers.Name
+                })
+                .ToListAsync();
         }
 
-        public async Task<IEnumerable<Games>> GetGamesByGameModeIdAsync(int gameModeId)
+        public async Task<IEnumerable<GameDto>> GetGamesByGameModeIdAsync(int gameModeId)
         {
-            return await context.Games.Where(g => g.Game_GameMode.Any(x => x.GameModeId == gameModeId)).ToListAsync();
+            return await context.Games
+                .Where(g => g.Game_GameMode.Any(x => x.GameModeId == gameModeId))
+                .Select(g => new GameDto
+                {
+                    CoverUrl = g.CoverUrl,
+                    FirstPublication = g.FirstPublication,
+                    GameId = g.GameId,
+                    GameName = g.Name,
+                    PublisherName = g.Publishers.Name
+                })
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<GameDto>> GetGamesByPlattformAndGenreIdAsync(int plattformId, int genreId)
+        {
+            return await context.Games
+                .Where(g => g.Game_Plattform.Any(x => x.PlattformId == plattformId))
+                .Where(g => g.Game_Genre.Any(x => x.GenreId == genreId))
+                .Select(g => new GameDto
+                {
+                    CoverUrl = g.CoverUrl,
+                    FirstPublication = g.FirstPublication,
+                    GameId = g.GameId,
+                    GameName = g.Name,
+                    PublisherName = g.Publishers.Name
+                }).ToListAsync();
+        }
+
+        public async Task<IEnumerable<GameDto>> GetGamesByPlattformAndGameModeIdAsync(int plattformId, int gameModeId)
+        {
+            return await context.Games
+                .Where(g => g.Game_Plattform.Any(x => x.PlattformId == plattformId))
+                .Where(g => g.Game_GameMode.Any(x => x.GameModeId == gameModeId))
+                .Select(g => new GameDto
+                {
+                    CoverUrl = g.CoverUrl,
+                    FirstPublication = g.FirstPublication,
+                    GameId = g.GameId,
+                    GameName = g.Name,
+                    PublisherName = g.Publishers.Name
+                }).ToListAsync();
+        }
+
+        public async Task<IEnumerable<GameDto>> GetGamesByGameModeAndGenreIdAsync(int gameModeId, int genreId)
+        {
+            return await context.Games
+                .Where(g => g.Game_GameMode.Any(x => x.GameModeId == gameModeId))
+                .Where(g => g.Game_Genre.Any(x => x.GenreId == genreId))
+                .Select(g => new GameDto
+                {
+                    CoverUrl = g.CoverUrl,
+                    FirstPublication = g.FirstPublication,
+                    GameId = g.GameId,
+                    GameName = g.Name,
+                    PublisherName = g.Publishers.Name
+                }).ToListAsync();
+        }
+
+        public async Task<IEnumerable<GameDto>> GetGamesByPlatfformByGenreByGameModeIdAsync(int plattformId, int genreId, int gameModeId)
+        {
+            return await context.Games
+                .Where(g => g.Game_Plattform.Any(x => x.PlattformId == plattformId))
+                .Where(g => g.Game_Genre.Any(x => x.GenreId == genreId))
+                .Where(g => g.Game_GameMode.Any(x => x.GameModeId == gameModeId))
+                .Select(g => new GameDto
+                {
+                    CoverUrl = g.CoverUrl,
+                    FirstPublication = g.FirstPublication,
+                    GameId = g.GameId,
+                    GameName = g.Name,
+                    PublisherName = g.Publishers.Name
+                }).ToListAsync();
         }
 
         public async Task<IEnumerable<Games>> GetGamesByEngineIdAsync(int engineId)

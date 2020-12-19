@@ -12,8 +12,6 @@ namespace GameInventoryAPI.Logic
     public class GameLogic
     {
         private readonly GameRepository gameRepository = new GameRepository();
-        private readonly PublisherRepository publisherRepository = new PublisherRepository();
-        private readonly EngineRepository engineRepository = new EngineRepository();
 
         #region Get Functions
         public async Task<IEnumerable<GameModel>> GetGamesAsync()
@@ -25,6 +23,15 @@ namespace GameInventoryAPI.Logic
             return models;
         }
 
+        public async Task<IEnumerable<GameDto>> GetGamesDtoAsync()
+        {
+            return await gameRepository.GetGamesDtoAsync();
+        }
+        public async Task<IEnumerable<GameNameAndId>> GetGamesWithNameAndIdAsync()
+        {
+            return await gameRepository.GetGamesNameAndIdAsync();
+        }
+
         public async Task<GameModel> GetGameByIdAsync(int gameId)
         {
             var game = await gameRepository.GetGameByIdAsync(gameId);
@@ -32,12 +39,13 @@ namespace GameInventoryAPI.Logic
             return MapToModel(game);
         }
 
-        public async Task<IEnumerable<GameModel>> GetGamesByPlattformIdAsync(int plattformId)
+        public async Task<IEnumerable<GameDto>> GetGamesByPlattformIdAsync(int plattformId)
         {
-            var games = await gameRepository.GetGamesByPlattformIdAsync(plattformId);
-            var modelList = new List<GameModel>();
-            foreach (var item in games) modelList.Add(MapToModel(item));
-            return modelList;
+            return await gameRepository.GetGamesByPlattformIdAsync(plattformId);
+            //var games = await gameRepository.GetGamesByPlattformIdAsync(plattformId);
+            //var modelList = new List<GameModel>();
+            //foreach (var item in games) modelList.Add(MapToModel(item));
+            //return modelList;
         }
 
         public async Task<IEnumerable<GameModel>> GetGamesByPublisherIdAsync(int publisherId)
@@ -48,28 +56,19 @@ namespace GameInventoryAPI.Logic
             return modelList;
         }
 
-        public async Task<IEnumerable<GameModel>> GetGamesByMediumIdAsync(int mediumId)
+        public async Task<IEnumerable<GameDto>> GetGamesByMediumIdAsync(int mediumId)
         {
-            var games = await gameRepository.GetGamesByMediumIdAsync(mediumId);
-            var modelList = new List<GameModel>();
-            foreach (var item in games) modelList.Add(MapToModel(item));
-            return modelList;
+            return await gameRepository.GetGamesByMediumIdAsync(mediumId);
         }
 
-        public async Task<IEnumerable<GameModel>> GetGamesByGenreIdAsync(int genreId)
+        public async Task<IEnumerable<GameDto>> GetGamesByGenreIdAsync(int genreId)
         {
-            var games = await gameRepository.GetGamesByGenreIdAsync(genreId);
-            var modelList = new List<GameModel>();
-            foreach (var item in games) modelList.Add(MapToModel(item));
-            return modelList;
+            return await gameRepository.GetGamesByGenreIdAsync(genreId);
         }
 
-        public async Task<IEnumerable<GameModel>> GetGamesByGameModeIdAsync(int gameModeId)
+        public async Task<IEnumerable<GameDto>> GetGamesByGameModeIdAsync(int gameModeId)
         {
-            var games = await gameRepository.GetGamesByGameModeIdAsync(gameModeId);
-            var modelList = new List<GameModel>();
-            foreach (var item in games) modelList.Add(MapToModel(item));
-            return modelList;
+            return await gameRepository.GetGamesByGameModeIdAsync(gameModeId);
         }
 
         public async Task<IEnumerable<GameModel>> GetGamesByEngineIdAsync(int engineId)
@@ -85,6 +84,42 @@ namespace GameInventoryAPI.Logic
             var game = await gameRepository.GetGameByNameAsync(gameName);
             if (game == null) return null;
             return MapToModel(game);
+        }
+
+        public async Task<IEnumerable<GameDto>> GetGamesByFilterParamsAsync(GameFilterParams filterParams)
+        {
+            if (filterParams.PlattformId > 0 && filterParams.GenreId == 0 && filterParams.GameModeId == 0)
+            {
+                return await gameRepository.GetGamesByPlattformIdAsync(filterParams.PlattformId);
+            }
+            else if (filterParams.PlattformId == 0 && filterParams.GenreId > 0 && filterParams.GameModeId == 0)
+            {
+                return await gameRepository.GetGamesByGenreIdAsync(filterParams.GenreId);
+            }
+            else if (filterParams.PlattformId == 0 && filterParams.GenreId == 0 && filterParams.GameModeId > 0)
+            {
+                return await gameRepository.GetGamesByGameModeIdAsync(filterParams.GameModeId);
+            }
+            else if (filterParams.PlattformId > 0 && filterParams.GenreId > 0 && filterParams.GameModeId == 0)
+            {
+                return await gameRepository.GetGamesByPlattformAndGenreIdAsync(filterParams.PlattformId, filterParams.GenreId);
+            }
+            else if (filterParams.PlattformId > 0 && filterParams.GenreId == 0 && filterParams.GameModeId > 0)
+            {
+                return await gameRepository.GetGamesByPlattformAndGameModeIdAsync(filterParams.PlattformId, filterParams.GameModeId);
+            }
+            else if (filterParams.PlattformId == 0 && filterParams.GenreId > 0 && filterParams.GameModeId > 0)
+            {
+                return await gameRepository.GetGamesByGameModeAndGenreIdAsync(filterParams.GameModeId, filterParams.GenreId);
+            }
+            else if (filterParams.PlattformId > 0 && filterParams.GenreId > 0 && filterParams.GameModeId > 0)
+            {
+                return await gameRepository.GetGamesByPlatfformByGenreByGameModeIdAsync(filterParams.PlattformId, filterParams.GenreId, filterParams.GameModeId);
+            }
+            else
+            {
+                return null;
+            }
         }
         #endregion
 
@@ -180,18 +215,18 @@ namespace GameInventoryAPI.Logic
                 GameId = game.GameId,
                 Name = game.Name,
                 GameEngineId = game.GameEngineId,
-                PublisherName = publisherRepository.GetPublisherNameById(game.PublisherId),
+                PublisherName = game.Publishers.Name,
                 PublisherId = game.PublisherId,
                 AgeRating = game.AgeRating,
                 CoverUrl = game.CoverUrl,
                 Description = game.Description,
                 FirstPublication = game.FirstPublication,
-                GameEngineName = game.GameEngineId.HasValue ? engineRepository.GetEngineNameById(game.GameEngineId.Value) : "",
+                GameEngineName = game.GameEngines?.Name,
                 Information = game.Information,
-                Plattforms = game.Game_Plattform?.Select(p => new GameModelPlattform { PlattformName = p.Plattform.Name }).ToList(),
-                GameModes = game.Game_GameMode?.Select(m => new GameModelGameMode { GameModeName = m.GameMode.Name }).ToList(),
-                Genres = game.Game_Genre?.Select(g => new GameModelGenre { GenreName = g.Genres.Name }).ToList(),
-                Mediums = game.Game_Medium?.Select(m => new GameModelMedium { MediumName = m.Medium.Name }).ToList()
+                Plattforms = game.Game_Plattform?.Select(p => p.Plattform.Name),
+                Genres = game.Game_Genre?.Select(g => g.Genres.Name),
+                Mediums =game.Game_Medium?.Select(m => m.Medium.Name),
+                GameModes = game.Game_GameMode?.Select(m => m.GameMode.Name),
             };
         }
 

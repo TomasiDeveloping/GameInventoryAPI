@@ -20,28 +20,31 @@ namespace GameInventoryAPI.Models
         public int AgeRating { get; set; }
         public string Information { get; set; }
         public string CoverUrl { get; set; }
-        public ICollection<GameModelMedium> Mediums { get; set; }
-        public ICollection<GameModelGenre> Genres { get; set; }
-        public ICollection<GameModelPlattform> Plattforms { get; set; }
-        public ICollection<GameModelGameMode> GameModes { get; set; }
+        public IEnumerable<string> Mediums { get; set; }
+        public IEnumerable<string> Genres { get; set; }
+        public IEnumerable<string> Plattforms { get; set; }
+        public IEnumerable<string> GameModes { get; set; }
     }
 
-    public class GameModelGenre
+    public class GameNameAndId
     {
-        public string GenreName { get; set; }
+        public int GameId { get; set; }
+        public string GameName { get; set; }
     }
 
-    public class GameModelPlattform
+    public class GameDto
     {
-        public string PlattformName { get; set; }
+        public int GameId { get; set; }
+        public string GameName { get; set; }
+        public string CoverUrl { get; set; }
+        public string PublisherName { get; set; }
+        public DateTime FirstPublication { get; set; }
     }
 
-    public class GameModelMedium
+    public class GameFilterParams
     {
-        public string MediumName { get; set; }
-    }
-    public class GameModelGameMode
-    {
-        public string GameModeName { get; set; }
+        public int PlattformId { get; set; }
+        public int GenreId { get; set; }
+        public int GameModeId { get; set; }
     }
 }
