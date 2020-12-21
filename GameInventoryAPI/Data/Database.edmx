@@ -89,6 +89,7 @@
           <Property Name="Description" Type="text" />
           <Property Name="Producer" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Release" Type="datetime" Nullable="false" />
+          <Property Name="PhotoUrl" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="Publishers">
           <Key>
@@ -431,6 +432,7 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Producer" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Release" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PhotoUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Game_Plattform" Relationship="GameInventoryModel.FK_Game_Plattform_Plattform1" FromRole="Plattform" ToRole="Game_Plattform" />
         </EntityType>
         <EntityType Name="Publishers">
@@ -656,6 +658,7 @@
           <EntitySetMapping Name="Plattform">
             <EntityTypeMapping TypeName="GameInventoryModel.Plattform">
               <MappingFragment StoreEntitySet="Plattform">
+                <ScalarProperty Name="PhotoUrl" ColumnName="PhotoUrl" />
                 <ScalarProperty Name="Release" ColumnName="Release" />
                 <ScalarProperty Name="Producer" ColumnName="Producer" />
                 <ScalarProperty Name="Description" ColumnName="Description" />

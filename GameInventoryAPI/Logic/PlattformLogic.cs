@@ -75,7 +75,8 @@ namespace GameInventoryAPI.Logic
                 Name = plattform.Name,
                 PlattformId = plattform.PlattformId,
                 Producer = plattform.Producer,
-                Release = plattform.Release
+                Release = plattform.Release,
+                PhotoUrl = plattform.PhotoUrl
             };
         }
 
@@ -89,7 +90,8 @@ namespace GameInventoryAPI.Logic
                 Name = plattformModel.Name,
                 PlattformId = plattformModel.PlattformId,
                 Producer = plattformModel.Producer,
-                Release = plattformModel.Release
+                Release = plattformModel.Release,
+                PhotoUrl = plattformModel.PhotoUrl
             };
         }
     }

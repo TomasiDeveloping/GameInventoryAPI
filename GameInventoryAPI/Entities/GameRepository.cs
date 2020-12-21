@@ -30,6 +30,7 @@ namespace GameInventoryAPI.Entities
                     FirstPublication = g.FirstPublication,
                     PublisherName = g.Publishers.Name
                 })
+                .OrderBy(g => g.GameName)
                 .ToListAsync();
         }
 
@@ -60,6 +61,7 @@ namespace GameInventoryAPI.Entities
                    GameName = g.Name,
                    PublisherName = g.Publishers.Name
                 })
+                .OrderBy(g => g.GameName)
                 .ToListAsync();
         }
 
@@ -79,7 +81,9 @@ namespace GameInventoryAPI.Entities
                     GameId = g.GameId,
                     GameName = g.Name,
                     PublisherName = g.Publishers.Name
-                }).ToListAsync();
+                })
+                .OrderBy(g => g.GameName)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<GameDto>> GetGamesByGenreIdAsync(int genreId)
@@ -94,6 +98,7 @@ namespace GameInventoryAPI.Entities
                     GameName = g.Name,
                     PublisherName = g.Publishers.Name
                 })
+                .OrderBy(g => g.GameName)
                 .ToListAsync();
         }
 
@@ -109,6 +114,7 @@ namespace GameInventoryAPI.Entities
                     GameName = g.Name,
                     PublisherName = g.Publishers.Name
                 })
+                .OrderBy(g => g.GameName)
                 .ToListAsync();
         }
 
@@ -124,7 +130,9 @@ namespace GameInventoryAPI.Entities
                     GameId = g.GameId,
                     GameName = g.Name,
                     PublisherName = g.Publishers.Name
-                }).ToListAsync();
+                })
+                .OrderBy(g => g.GameName)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<GameDto>> GetGamesByPlattformAndGameModeIdAsync(int plattformId, int gameModeId)
@@ -139,7 +147,9 @@ namespace GameInventoryAPI.Entities
                     GameId = g.GameId,
                     GameName = g.Name,
                     PublisherName = g.Publishers.Name
-                }).ToListAsync();
+                })
+                .OrderBy(g => g.GameName)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<GameDto>> GetGamesByGameModeAndGenreIdAsync(int gameModeId, int genreId)
@@ -154,7 +164,9 @@ namespace GameInventoryAPI.Entities
                     GameId = g.GameId,
                     GameName = g.Name,
                     PublisherName = g.Publishers.Name
-                }).ToListAsync();
+                })
+                .OrderBy(g => g.GameName)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<GameDto>> GetGamesByPlatfformByGenreByGameModeIdAsync(int plattformId, int genreId, int gameModeId)
@@ -170,7 +182,9 @@ namespace GameInventoryAPI.Entities
                     GameId = g.GameId,
                     GameName = g.Name,
                     PublisherName = g.Publishers.Name
-                }).ToListAsync();
+                })
+                .OrderBy(g => g.GameName)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Games>> GetGamesByEngineIdAsync(int engineId)

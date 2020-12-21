@@ -25,6 +25,7 @@ namespace GameInventoryAPI.Data
         public string Description { get; set; }
         public string Producer { get; set; }
         public System.DateTime Release { get; set; }
+        public string PhotoUrl { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Game_Plattform> Game_Plattform { get; set; }

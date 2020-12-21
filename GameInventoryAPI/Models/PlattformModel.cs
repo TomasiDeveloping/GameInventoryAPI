@@ -12,5 +12,6 @@ namespace GameInventoryAPI.Models
         public string Description { get; set; }
         public string Producer { get; set; }
         public DateTime Release { get; set; }
+        public string PhotoUrl { get; set; }
     }
 }
