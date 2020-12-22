@@ -42,6 +42,19 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet, Route("Name/{plattformName}")]
+        public async Task<IHttpActionResult> GetPlattformByName(string plattformName)
+        {
+            try
+            {
+                return Ok(await logic.GetPlattformByNameAsync(plattformName));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         #endregion
 
         #region POST

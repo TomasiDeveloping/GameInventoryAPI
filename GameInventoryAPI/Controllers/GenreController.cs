@@ -42,6 +42,19 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet, Route("Name/{genreName}")]
+        public async Task<IHttpActionResult> GetGenreByName(string genreName)
+        {
+            try
+            {
+                return Ok(await genreLogic.GetGenreByNameAsync(genreName));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         #endregion
 
         #region POST

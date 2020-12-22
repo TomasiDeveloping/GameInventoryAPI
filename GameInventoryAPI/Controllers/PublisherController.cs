@@ -42,6 +42,19 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet, Route("Name/{publisherName}")]
+        public async Task<IHttpActionResult> GetPublisherByName(string publisherName)
+        {
+            try
+            {
+                return Ok(await publisherLogic.GetPublisherByNameAsync(publisherName));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         #endregion
 
         #region POST
