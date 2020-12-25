@@ -94,7 +94,7 @@ namespace GameInventoryAPI.Controllers
                 if (id <= 0) return BadRequest("Keine Id");
                 var check = await logic.DeleteEngineByIdAsync(id);
 
-                if (check) return Ok();
+                if (check) return Ok(check);
                 return BadRequest("Fehler beim löschen");
             }
             catch (Exception ex)

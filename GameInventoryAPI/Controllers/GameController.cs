@@ -185,8 +185,8 @@ namespace GameInventoryAPI.Controllers
             }
         }
 
-        [HttpPost, Route("{gameId}/AddPlattform/{plattformId}")]
-        public async Task<IHttpActionResult> AddPlattformToGame(int gameId, int plattformId)
+        [HttpPost, Route("{gameId}/AddPlattform")]
+        public async Task<IHttpActionResult> AddPlattformToGame(int gameId, [FromBody]int plattformId)
         {
             try
             {
@@ -205,8 +205,8 @@ namespace GameInventoryAPI.Controllers
             }
         }
 
-        [HttpPost, Route("{gameId}/AddMedium/{mediumId}")]
-        public async Task<IHttpActionResult> AddMediumToGame(int gameId, int mediumId)
+        [HttpPost, Route("{gameId}/AddMedium")]
+        public async Task<IHttpActionResult> AddMediumToGame(int gameId, [FromBody]int mediumId)
         {
             try
             {
@@ -225,8 +225,8 @@ namespace GameInventoryAPI.Controllers
             }
         }
 
-        [HttpPost, Route("{gameId}/AddGenre/{genreId}")]
-        public async Task<IHttpActionResult> AddGenreToGame(int gameId, int genreId)
+        [HttpPost, Route("{gameId}/AddGenre")]
+        public async Task<IHttpActionResult> AddGenreToGame(int gameId, [FromBody]int genreId)
         {
             try
             {
@@ -244,8 +244,8 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost, Route("{gameId}/AddGameMode/{gameModeId}")]
-        public async Task<IHttpActionResult> AddGameModeToGame(int gameId, int gameModeId)
+        [HttpPost, Route("{gameId}/AddGameMode")]
+        public async Task<IHttpActionResult> AddGameModeToGame(int gameId, [FromBody]int gameModeId)
         {
             try
             {

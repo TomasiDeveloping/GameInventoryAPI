@@ -135,7 +135,41 @@ namespace GameInventoryAPI.Logic
         public async Task<GameModel> InsertGameAsync(GameModel gameModel)
         {
             if (gameModel == null) throw new ArgumentException(Properties.Settings.Default.ObjectNullException);
-            return MapToModel(await gameRepository.InsertGameAsync(MapToDbObject(gameModel)));
+            var newGame = await gameRepository.InsertGameAsync(MapToDbObject(gameModel));
+
+            if (gameModel.Mediums.Count() != 0)
+            {
+                foreach(var medium in gameModel.Mediums)
+                {
+                    await InsertMediumToGame(newGame.GameId, medium.MediumId);
+                }
+            }
+
+            if (gameModel.Genres.Count() != 0)
+            {
+                foreach (var genre in gameModel.Genres)
+                {
+                    await InsertGenreToGame(newGame.GameId, genre.GenreId);
+                }
+            }
+
+            if (gameModel.Plattforms.Count() != 0)
+            {
+                foreach (var plattform in gameModel.Plattforms)
+                {
+                    await InsertPlattformToGame(newGame.GameId, plattform.PlattformId);
+                }
+            }
+
+            if (gameModel.GameModes.Count() != 0)
+            {
+                foreach (var mode in gameModel.GameModes)
+                {
+                    await InsertGameModeToGame(newGame.GameId, mode.GameModeId);
+                }
+            }
+            gameModel.GameId = newGame.GameId;
+            return gameModel;
         }
 
         public async Task<bool> InsertPlattformToGame(int gameId, int plattformId)
@@ -223,10 +257,10 @@ namespace GameInventoryAPI.Logic
                 FirstPublication = game.FirstPublication,
                 GameEngineName = game.GameEngines?.Name,
                 Information = game.Information,
-                Plattforms = game.Game_Plattform?.Select(p => p.Plattform.Name),
-                Genres = game.Game_Genre?.Select(g => g.Genres.Name),
-                Mediums =game.Game_Medium?.Select(m => m.Medium.Name),
-                GameModes = game.Game_GameMode?.Select(m => m.GameMode.Name),
+                Plattforms = game.Game_Plattform?.Select(p => new GameModelPlattform { PlattformId = p.PlattformId, PlattformName = p.Plattform.Name }),
+                Genres = game.Game_Genre?.Select(g => new GameModelGenre { GenreId = g.GenreId, GenreName = g.Genres.Name}),
+                Mediums =game.Game_Medium?.Select(m => new GameModelMedium { MediumId = m.MediumId, MediumName = m.Medium.Name}),
+                GameModes = game.Game_GameMode?.Select(m => new GameModelGameMode { GameModeId = m.GameModeId, GameModeName = m.GameMode.Name}),
             };
         }
 

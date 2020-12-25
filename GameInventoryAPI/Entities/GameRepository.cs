@@ -218,9 +218,7 @@ namespace GameInventoryAPI.Entities
             gameToUpdate.Information = game.Information;
             gameToUpdate.CoverUrl = game.CoverUrl;
 
-            var checkUpdate = await context.SaveChangesAsync() > 0;
-
-            if (!checkUpdate) return null;
+            await context.SaveChangesAsync();
 
             return gameToUpdate;
         }
@@ -313,7 +311,7 @@ namespace GameInventoryAPI.Entities
             }
 
             // Check if the game has genres and remove it
-            var genreList = await context.Game_Genre.Where(g => g.GameGenreId == id).ToListAsync();
+            var genreList = await context.Game_Genre.Where(g => g.GameId == id).ToListAsync();
             if (genreList.Count() > 0)
             {
                 foreach (var item in genreList)

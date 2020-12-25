@@ -45,6 +45,7 @@ namespace GameInventoryAPI.Entities
             plattformToUpdate.Producer = plattform.Producer;
             plattformToUpdate.Release = plattform.Release;
             plattformToUpdate.Description = plattform.Description;
+            plattformToUpdate.PhotoUrl = plattform.PhotoUrl;
 
             var check = await context.SaveChangesAsync() > 0;
             if (!check) return null;
