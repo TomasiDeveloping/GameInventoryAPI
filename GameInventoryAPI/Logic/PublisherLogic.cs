@@ -3,9 +3,7 @@ using GameInventoryAPI.Entities;
 using GameInventoryAPI.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace GameInventoryAPI.Logic
 {
@@ -14,6 +12,11 @@ namespace GameInventoryAPI.Logic
         private readonly PublisherRepository repository = new PublisherRepository();
 
         #region Get Functions
+
+        /// <summary>
+        /// Get all PublisherModel Async
+        /// </summary>
+        /// <returns>IEnumerable of PublisherModel</returns>
         public async Task<IEnumerable<PublisherModel>> GetPublisherAsync()
         {
             var publisher = await repository.GetPublishersAsync();
@@ -22,6 +25,11 @@ namespace GameInventoryAPI.Logic
             return modelList;
         }
 
+        /// <summary>
+        /// Get a PublisherModel by Id Async
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>PublisherModel</returns>
         public async Task<PublisherModel> GetPublisherByIdAsync(int id)
         {
             var publisher = await repository.GetPublisherByIdAsync(id);
@@ -29,37 +37,69 @@ namespace GameInventoryAPI.Logic
             return MapToModel(publisher);
         }
 
+        /// <summary>
+        /// Get a PublisherModel by Name Async
+        /// </summary>
+        /// <param name="publisherName"></param>
+        /// <returns>PublisherModel</returns>
         public async Task<PublisherModel> GetPublisherByNameAsync(string publisherName)
         {
             var publisher = await repository.GetPublisherByNameAsync(publisherName);
             if (publisher == null) return null;
             return MapToModel(publisher);
         }
-        #endregion
+
+        #endregion Get Functions
 
         #region Update Functions
+
+        /// <summary>
+        /// Update a PublisherModel Async
+        /// </summary>
+        /// <param name="publisherModel"></param>
+        /// <returns>PublisherModel</returns>
         public async Task<PublisherModel> UpdatePublisherAsync(PublisherModel publisherModel)
         {
             if (publisherModel == null) throw new ArgumentException(Properties.Settings.Default.ObjectNullException);
             return MapToModel(await repository.UpdatePublisherAsync(MapToDbObject(publisherModel)));
         }
-        #endregion
+
+        #endregion Update Functions
 
         #region Insert Functions
+
+        /// <summary>
+        /// Insert a new PublisherModel Async
+        /// </summary>
+        /// <param name="publisherModel"></param>
+        /// <returns>PublisherModel</returns>
         public async Task<PublisherModel> InsertPublisherAsync(PublisherModel publisherModel)
         {
             if (publisherModel == null) throw new ArgumentException(Properties.Settings.Default.ObjectNullException);
             return MapToModel(await repository.InsertPublisherAsync(MapToDbObject(publisherModel)));
         }
-        #endregion
+
+        #endregion Insert Functions
 
         #region Delete Functions
+
+        /// <summary>
+        /// Delete a Publisher by Id Async
+        /// </summary>
+        /// <param name="publisherId"></param>
+        /// <returns>bool</returns>
         public async Task<bool> DeletePublisherByIdAsync(int publisherId)
         {
             return await repository.DeletePublisherByIdAsync(publisherId);
         }
-        #endregion
 
+        #endregion Delete Functions
+
+        /// <summary>
+        /// Map a DB Publishers Object to a PublisherModel
+        /// </summary>
+        /// <param name="publisher"></param>
+        /// <returns>PublisherModel</returns>
         private PublisherModel MapToModel(Publishers publisher)
         {
             if (publisher == null) return null;
@@ -73,6 +113,11 @@ namespace GameInventoryAPI.Logic
             };
         }
 
+        /// <summary>
+        /// Map a PublisherModel to a DB Publishers Object
+        /// </summary>
+        /// <param name="publisherModel"></param>
+        /// <returns>Publishers</returns>
         private Publishers MapToDbObject(PublisherModel publisherModel)
         {
             if (publisherModel == null) return null;

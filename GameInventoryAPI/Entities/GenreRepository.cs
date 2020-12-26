@@ -4,35 +4,53 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace GameInventoryAPI.Entities
 {
     public class GenreRepository
     {
-        #region Get Functions
-
         private readonly GameInventoryEntities context = new GameInventoryEntities();
 
+        #region Get Functions
+
+        /// <summary>
+        /// Get all Genres Async
+        /// </summary>
+        /// <returns>IEnumerable of Genres</returns>
         public async Task<IEnumerable<Genres>> GetGenresAsync()
         {
             return await context.Genres.ToListAsync();
         }
 
+        /// <summary>
+        /// Get Genre by Id Async
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Genres</returns>
         public async Task<Genres> GetGenreByIdAsync(int id)
         {
             return await context.Genres.FindAsync(id);
         }
 
+        /// <summary>
+        /// Get a Genre by Name Async
+        /// </summary>
+        /// <param name="genreName"></param>
+        /// <returns>Genres</returns>
         public async Task<Genres> GetGenreByNameAsync(string genreName)
         {
             return await context.Genres.FirstOrDefaultAsync(g => g.Name.Equals(genreName));
         }
 
-
-        #endregion
+        #endregion Get Functions
 
         #region Update Functions
+
+        /// <summary>
+        /// Update a Genre Async
+        /// </summary>
+        /// <param name="genre"></param>
+        /// <returns>Genres</returns>
         public async Task<Genres> UpdateGenreAsync(Genres genre)
         {
             if (genre == null) return null;
@@ -49,9 +67,16 @@ namespace GameInventoryAPI.Entities
 
             return genreToUpdate;
         }
-        #endregion
+
+        #endregion Update Functions
 
         #region Insert Functions
+
+        /// <summary>
+        /// Insert a new Genre to the DB Async
+        /// </summary>
+        /// <param name="genre"></param>
+        /// <returns>Genres</returns>
         public async Task<Genres> InsertGenreAsync(Genres genre)
         {
             if (genre == null) return null;
@@ -63,9 +88,16 @@ namespace GameInventoryAPI.Entities
 
             return genre;
         }
-        #endregion
+
+        #endregion Insert Functions
 
         #region Delete Functions
+
+        /// <summary>
+        /// Delete a Genre from the DB by Id Async
+        /// </summary>
+        /// <param name="genreId"></param>
+        /// <returns>bool</returns>
         public async Task<bool> DeleteGenreByIdAsync(int genreId)
         {
             if (genreId <= 0) return false;
@@ -79,6 +111,11 @@ namespace GameInventoryAPI.Entities
             return await context.SaveChangesAsync() > 0;
         }
 
+        /// <summary>
+        /// Delete a Genre from the DB by Id with all dependencies Async
+        /// </summary>
+        /// <param name="genreId"></param>
+        /// <returns>bool</returns>
         public async Task<bool> ForecDeleteGenreByIdAsync(int genreId)
         {
             var checkGenreToDelete = await context.Genres.FindAsync(genreId);
@@ -98,6 +135,7 @@ namespace GameInventoryAPI.Entities
             context.Genres.Remove(checkGenreToDelete);
             return await context.SaveChangesAsync() > 0;
         }
-        #endregion
+
+        #endregion Delete Functions
     }
 }

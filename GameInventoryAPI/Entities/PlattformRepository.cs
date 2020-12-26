@@ -1,38 +1,56 @@
 ﻿using GameInventoryAPI.Data;
-using GameInventoryAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace GameInventoryAPI.Entities
 {
     public class PlattformRepository
     {
-        #region Get Functions
-
         private readonly GameInventoryEntities context = new GameInventoryEntities();
 
+        #region Get Functions
+
+        /// <summary>
+        ///  Get all Platforms Async
+        /// </summary>
+        /// <returns>IEnumerable of Plattform</returns>
         public async Task<IEnumerable<Plattform>> GetPlattformsAsync()
         {
             return await context.Plattform.ToListAsync();
         }
 
+        /// <summary>
+        /// Get a Platform by Id Async
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Plattform</returns>
         public async Task<Plattform> GetPlattformByIdAsync(int id)
         {
             return await context.Plattform.FindAsync(id);
         }
 
+        /// <summary>
+        /// Get a Platform by Name Async
+        /// </summary>
+        /// <param name="plattformName"></param>
+        /// <returns>Plattform</returns>
         public async Task<Plattform> GetPlattformByNameAsync(string plattformName)
         {
             return await context.Plattform.FirstOrDefaultAsync(p => p.Name.Equals(plattformName));
         }
 
-        #endregion
+        #endregion Get Functions
 
         #region Update Functions
+
+        /// <summary>
+        /// Update a Platform Async
+        /// </summary>
+        /// <param name="plattform"></param>
+        /// <returns>Plattform</returns>
         public async Task<Plattform> UpdatePlattformAsync(Plattform plattform)
         {
             if (plattform == null) return null;
@@ -52,9 +70,16 @@ namespace GameInventoryAPI.Entities
 
             return plattform;
         }
-        #endregion
+
+        #endregion Update Functions
 
         #region Insert Functions
+
+        /// <summary>
+        /// Insert a new Platform to the DB Async
+        /// </summary>
+        /// <param name="plattform"></param>
+        /// <returns>Plattform</returns>
         public async Task<Plattform> InsertPlattformAsync(Plattform plattform)
         {
             if (plattform == null) return null;
@@ -65,9 +90,16 @@ namespace GameInventoryAPI.Entities
 
             return plattform;
         }
-        #endregion
+
+        #endregion Insert Functions
 
         #region Delete Functions
+
+        /// <summary>
+        /// Delete a Platform from the DB by Id Async
+        /// </summary>
+        /// <param name="plattformId"></param>
+        /// <returns>bool</returns>
         public async Task<bool> DeletePlattformByIdAsync(int plattformId)
         {
             if (plattformId <= 0) return false;
@@ -82,6 +114,11 @@ namespace GameInventoryAPI.Entities
             return await context.SaveChangesAsync() > 0;
         }
 
+        /// <summary>
+        /// Delete a Platform from the DB by Id with all dependencies Async
+        /// </summary>
+        /// <param name="plattformId"></param>
+        /// <returns>bool</returns>
         public async Task<bool> ForceDeletePlattformByIdAsync(int plattformId)
         {
             var plattformToDelete = await context.Plattform.FindAsync(plattformId);
@@ -101,6 +138,7 @@ namespace GameInventoryAPI.Entities
 
             return await context.SaveChangesAsync() > 0;
         }
-        #endregion
+
+        #endregion Delete Functions
     }
 }

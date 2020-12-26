@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace GameInventoryAPI.Entities
 {
@@ -14,11 +13,20 @@ namespace GameInventoryAPI.Entities
 
         private readonly GameInventoryEntities context = new GameInventoryEntities();
 
+        /// <summary>
+        /// Get all GameModes Async
+        /// </summary>
+        /// <returns>IEnumerable of GameMode</returns>
         public async Task<IEnumerable<GameMode>> GetGameModesAsync()
         {
             return await context.GameMode.ToListAsync();
         }
 
+        /// <summary>
+        /// Get GameMode by Id Async
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>GameMode</returns>
         public async Task<GameMode> GetGameModeByIdAsync(int id)
         {
             return await context.GameMode.FindAsync(id);
@@ -29,9 +37,15 @@ namespace GameInventoryAPI.Entities
             return await context.GameMode.FirstOrDefaultAsync(m => m.Name.Equals(gameModeName));
         }
 
-        #endregion
+        #endregion Get Functions
 
         #region Update Functions
+
+        /// <summary>
+        /// Update a GameMode Async
+        /// </summary>
+        /// <param name="gameMode"></param>
+        /// <returns>GameMode</returns>
         public async Task<GameMode> UpdateGameModeAsync(GameMode gameMode)
         {
             if (gameMode == null) return null;
@@ -43,9 +57,16 @@ namespace GameInventoryAPI.Entities
             if (!checkUpdate) return null;
             return gameModeToUpdate;
         }
-        #endregion
+
+        #endregion Update Functions
 
         #region Insert Functions
+
+        /// <summary>
+        /// Insert a new GameMode to the DB Async
+        /// </summary>
+        /// <param name="gameMode"></param>
+        /// <returns>GameMode</returns>
         public async Task<GameMode> InsertGameModeAsync(GameMode gameMode)
         {
             if (gameMode == null) return null;
@@ -54,9 +75,16 @@ namespace GameInventoryAPI.Entities
             if (!checkInsert) return null;
             return gameMode;
         }
-        #endregion
+
+        #endregion Insert Functions
 
         #region Delete Functions
+
+        /// <summary>
+        /// Delete a GameMode by Id from the DB Async
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>bool</returns>
         public async Task<bool> DeleteGameModeByIdAsync(int id)
         {
             var checkGameModeInGames = await context.Game_GameMode.Where(g => g.GameModeId == id).ToListAsync();
@@ -68,6 +96,11 @@ namespace GameInventoryAPI.Entities
             return await context.SaveChangesAsync() > 0;
         }
 
+        /// <summary>
+        /// Delete a GameMode by Id with all dependencies Async
+        /// </summary>
+        /// <param name="gameModeId"></param>
+        /// <returns>bool</returns>
         public async Task<bool> ForceDeleteGameModeByIdAsync(int gameModeId)
         {
             var checkGameMode = await context.GameMode.FindAsync(gameModeId);
@@ -87,6 +120,7 @@ namespace GameInventoryAPI.Entities
 
             return await context.SaveChangesAsync() > 0;
         }
-        #endregion
+
+        #endregion Delete Functions
     }
 }

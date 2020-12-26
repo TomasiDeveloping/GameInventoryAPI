@@ -1,10 +1,7 @@
 ﻿using GameInventoryAPI.Logic;
 using GameInventoryAPI.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 
 namespace GameInventoryAPI.Controllers
@@ -15,6 +12,7 @@ namespace GameInventoryAPI.Controllers
         private readonly PublisherLogic publisherLogic = new PublisherLogic();
 
         #region GET
+
         [HttpGet]
         public async Task<IHttpActionResult> Get()
         {
@@ -22,9 +20,9 @@ namespace GameInventoryAPI.Controllers
             {
                 return Ok(await publisherLogic.GetPublisherAsync());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-              return BadRequest(ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -37,7 +35,7 @@ namespace GameInventoryAPI.Controllers
                 if (publisher == null) return BadRequest("Publisher mit der Id: " + id + " nicht vorhanden");
                 return Ok(publisher);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -55,9 +53,11 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
+
+        #endregion GET
 
         #region POST
+
         [HttpPost]
         public async Task<IHttpActionResult> Post(PublisherModel publisherModel)
         {
@@ -78,9 +78,11 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
+
+        #endregion POST
 
         #region PUT
+
         [HttpPut]
         public async Task<IHttpActionResult> Put(int id, PublisherModel publisherModel)
         {
@@ -100,9 +102,11 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
+
+        #endregion PUT
 
         #region DELETE
+
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(int id)
         {
@@ -120,6 +124,7 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
+
+        #endregion DELETE
     }
 }

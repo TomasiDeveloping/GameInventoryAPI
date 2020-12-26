@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace GameInventoryAPI.App_Start
 {
@@ -12,6 +8,5 @@ namespace GameInventoryAPI.App_Start
         {
             filters.Add(new HandleErrorAttribute());
         }
-
     }
 }

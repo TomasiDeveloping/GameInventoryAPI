@@ -1,13 +1,6 @@
-﻿using GameInventoryAPI.Data;
-using GameInventoryAPI.Entities;
-using GameInventoryAPI.Logic;
+﻿using GameInventoryAPI.Logic;
 using GameInventoryAPI.Models;
 using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -19,10 +12,10 @@ namespace GameInventoryAPI.Controllers
         private readonly GameLogic gameLogic = new GameLogic();
 
         #region GET
+
         [HttpGet]
-        public async Task <IHttpActionResult> Get()
+        public async Task<IHttpActionResult> Get()
         {
-          
             return Ok(await gameLogic.GetGamesAsync());
         }
 
@@ -36,11 +29,10 @@ namespace GameInventoryAPI.Controllers
                 if (game == null) return BadRequest("Game mit der Id: " + id + " wurde nicht gefunden");
                 return Ok(game);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-      
         }
 
         [HttpGet, Route("GameDto")]
@@ -161,9 +153,11 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
+
+        #endregion GET
 
         #region POST
+
         [HttpPost]
         public async Task<IHttpActionResult> Post(GameModel gameModel)
         {
@@ -186,7 +180,7 @@ namespace GameInventoryAPI.Controllers
         }
 
         [HttpPost, Route("{gameId}/AddPlattform")]
-        public async Task<IHttpActionResult> AddPlattformToGame(int gameId, [FromBody]int plattformId)
+        public async Task<IHttpActionResult> AddPlattformToGame(int gameId, [FromBody] int plattformId)
         {
             try
             {
@@ -206,7 +200,7 @@ namespace GameInventoryAPI.Controllers
         }
 
         [HttpPost, Route("{gameId}/AddMedium")]
-        public async Task<IHttpActionResult> AddMediumToGame(int gameId, [FromBody]int mediumId)
+        public async Task<IHttpActionResult> AddMediumToGame(int gameId, [FromBody] int mediumId)
         {
             try
             {
@@ -226,7 +220,7 @@ namespace GameInventoryAPI.Controllers
         }
 
         [HttpPost, Route("{gameId}/AddGenre")]
-        public async Task<IHttpActionResult> AddGenreToGame(int gameId, [FromBody]int genreId)
+        public async Task<IHttpActionResult> AddGenreToGame(int gameId, [FromBody] int genreId)
         {
             try
             {
@@ -244,8 +238,9 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPost, Route("{gameId}/AddGameMode")]
-        public async Task<IHttpActionResult> AddGameModeToGame(int gameId, [FromBody]int gameModeId)
+        public async Task<IHttpActionResult> AddGameModeToGame(int gameId, [FromBody] int gameModeId)
         {
             try
             {
@@ -263,9 +258,11 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
+
+        #endregion POST
 
         #region PUT
+
         [HttpPut]
         public async Task<IHttpActionResult> Put(int id, GameModel gameModel)
         {
@@ -284,9 +281,11 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
+
+        #endregion PUT
 
         #region DELETE
+
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(int id)
         {
@@ -305,6 +304,7 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpDelete, Route("{gameId}/RemovePlattform/{plattformId}")]
         public async Task<IHttpActionResult> RemovePlattformFromGame(int gameId, int plattformId)
         {
@@ -353,7 +353,7 @@ namespace GameInventoryAPI.Controllers
 
                 return Ok("Genre erfolgreich entfernt");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -376,6 +376,7 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
+
+        #endregion DELETE
     }
 }

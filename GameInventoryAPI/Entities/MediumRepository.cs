@@ -4,34 +4,53 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace GameInventoryAPI.Entities
 {
     public class MediumRepository
     {
-        #region Get Functions
-
         private readonly GameInventoryEntities context = new GameInventoryEntities();
 
+        #region Get Functions
+
+        /// <summary>
+        /// Get all Mediums Async
+        /// </summary>
+        /// <returns>IEnumerable of Medium</returns>
         public async Task<IEnumerable<Medium>> GetMediumsAsync()
         {
             return await context.Medium.ToListAsync();
         }
 
+        /// <summary>
+        /// Get a Medium by Id Async
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Medium</returns>
         public async Task<Medium> GetMediumByIdAsync(int id)
         {
             return await context.Medium.FindAsync(id);
         }
 
+        /// <summary>
+        /// Get a Medium by Name Async
+        /// </summary>
+        /// <param name="mediumName"></param>
+        /// <returns>Medium</returns>
         public async Task<Medium> GetMediumByNameAsync(string mediumName)
         {
             return await context.Medium.FirstOrDefaultAsync(m => m.Name.Equals(mediumName));
         }
 
-        #endregion
+        #endregion Get Functions
 
         #region Update Functions
+
+        /// <summary>
+        /// Update a Medium Async
+        /// </summary>
+        /// <param name="medium"></param>
+        /// <returns>Medium</returns>
         public async Task<Medium> UpdateMediumAsync(Medium medium)
         {
             if (medium == null) return null;
@@ -47,9 +66,16 @@ namespace GameInventoryAPI.Entities
 
             return mediumToUpdate;
         }
-        #endregion
+
+        #endregion Update Functions
 
         #region Insert Functions
+
+        /// <summary>
+        /// Insert a new Medium to the DB Async
+        /// </summary>
+        /// <param name="medium"></param>
+        /// <returns>Medium</returns>
         public async Task<Medium> InsertMediumAsync(Medium medium)
         {
             if (medium == null) return null;
@@ -61,9 +87,16 @@ namespace GameInventoryAPI.Entities
 
             return medium;
         }
-        #endregion
+
+        #endregion Insert Functions
 
         #region Delete Functions
+
+        /// <summary>
+        /// Delete a Medium from the DB by Id Async
+        /// </summary>
+        /// <param name="mediumId"></param>
+        /// <returns>bool</returns>
         public async Task<bool> DeleteMediumByIdAsync(int mediumId)
         {
             if (mediumId <= 0) return false;
@@ -78,6 +111,11 @@ namespace GameInventoryAPI.Entities
             return await context.SaveChangesAsync() > 0;
         }
 
+        /// <summary>
+        /// Delete a Medium from the DB by Id with all dependencies Async
+        /// </summary>
+        /// <param name="mediumId"></param>
+        /// <returns>bool</returns>
         public async Task<bool> ForceDeleteMediumByIdAsync(int mediumId)
         {
             var mediumToDelete = await context.Medium.FindAsync(mediumId);
@@ -96,6 +134,7 @@ namespace GameInventoryAPI.Entities
 
             return await context.SaveChangesAsync() > 0;
         }
-        #endregion
+
+        #endregion Delete Functions
     }
 }

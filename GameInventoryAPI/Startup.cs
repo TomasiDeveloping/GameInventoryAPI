@@ -4,7 +4,6 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using System;
 using System.Net.Http.Formatting;
-using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -39,5 +38,4 @@ namespace GameInventoryAPI
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
         }
     }
-
 }

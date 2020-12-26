@@ -1,11 +1,8 @@
 ﻿using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace GameInventoryAPI.OAuth
 {
@@ -51,5 +48,4 @@ namespace GameInventoryAPI.OAuth
             return Task.FromResult<object>(null);
         }
     }
-
 }

@@ -1,10 +1,7 @@
 ﻿using GameInventoryAPI.Logic;
 using GameInventoryAPI.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 
 namespace GameInventoryAPI.Controllers
@@ -15,6 +12,7 @@ namespace GameInventoryAPI.Controllers
         private readonly GenreLogic genreLogic = new GenreLogic();
 
         #region GET
+
         [HttpGet]
         public async Task<IHttpActionResult> Get()
         {
@@ -55,9 +53,11 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
+
+        #endregion GET
 
         #region POST
+
         [HttpPost]
         public async Task<IHttpActionResult> Post(GenreModel genreModel)
         {
@@ -77,9 +77,11 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
+
+        #endregion POST
 
         #region PUT
+
         [HttpPut]
         public async Task<IHttpActionResult> Put(int id, GenreModel genreModel)
         {
@@ -98,11 +100,12 @@ namespace GameInventoryAPI.Controllers
             {
                 return BadRequest(ex.Message);
             }
-         
         }
-        #endregion
+
+        #endregion PUT
 
         #region DELETE
+
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(int id)
         {
@@ -137,6 +140,7 @@ namespace GameInventoryAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
+
+        #endregion DELETE
     }
 }

@@ -4,37 +4,53 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace GameInventoryAPI.Entities
 {
     public class EngineRepository
     {
         #region GET
+
         private readonly GameInventoryEntities context = new GameInventoryEntities();
 
+        /// <summary>
+        /// Get Engines Async
+        /// </summary>
+        /// <returns>IEnumerable of GameEngines</returns>
         public async Task<IEnumerable<GameEngines>> GetEnginesAsync()
         {
             return await context.GameEngines.ToListAsync();
         }
 
+        /// <summary>
+        /// Get Engine by Id Async
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>GameEngine</returns>
         public async Task<GameEngines> GetEngineByIdAsync(int id)
         {
             return await context.GameEngines.FindAsync(id);
         }
 
+        /// <summary>
+        /// Get Engine by Name Async
+        /// </summary>
+        /// <param name="engineName"></param>
+        /// <returns>GameEngine</returns>
         public async Task<GameEngines> GetEngineByNameAsync(string engineName)
         {
             return await context.GameEngines.FirstOrDefaultAsync(e => e.Name.Equals(engineName));
         }
 
-        public string GetEngineNameById(int engineId)
-        {
-            return context.GameEngines.Find(engineId).Name;
-        }
-        #endregion
+        #endregion GET
 
         #region INSERT
+
+        /// <summary>
+        /// Insert a new Engine to the DB Async
+        /// </summary>
+        /// <param name="gameEngine"></param>
+        /// <returns>GameEngine</returns>
         public async Task<GameEngines> InsertEngineAsync(GameEngines gameEngine)
         {
             context.GameEngines.Add(gameEngine);
@@ -42,9 +58,16 @@ namespace GameInventoryAPI.Entities
             if (!check) return null;
             return gameEngine;
         }
-        #endregion
+
+        #endregion INSERT
 
         #region UPDATE
+
+        /// <summary>
+        /// Update a Game Engine Async
+        /// </summary>
+        /// <param name="gameEngine"></param>
+        /// <returns>GameEngine</returns>
         public async Task<GameEngines> UpdateGameEngineAsync(GameEngines gameEngine)
         {
             var engineToUpdate = await context.GameEngines.FindAsync(gameEngine.GameEngineId);
@@ -54,9 +77,16 @@ namespace GameInventoryAPI.Entities
             await context.SaveChangesAsync();
             return engineToUpdate;
         }
-        #endregion
+
+        #endregion UPDATE
 
         #region DELETE
+
+        /// <summary>
+        /// Delete a Game Engine by Id Async
+        /// </summary>
+        /// <param name="gameEngineId"></param>
+        /// <returns>bool</returns>
         public async Task<bool> DeleteEngineByIdAsync(int gameEngineId)
         {
             if (gameEngineId <= 0) return false;
@@ -71,6 +101,11 @@ namespace GameInventoryAPI.Entities
             return await context.SaveChangesAsync() > 0;
         }
 
+        /// <summary>
+        /// Delete a Game Engine and remove all dependencies Async
+        /// </summary>
+        /// <param name="gameEngineId"></param>
+        /// <returns>bool</returns>
         public async Task<bool> ForceDeleteEngineByIdAsync(int gameEngineId)
         {
             // Check if the engine is use in games
@@ -90,6 +125,7 @@ namespace GameInventoryAPI.Entities
             context.GameEngines.Remove(engineToDelete);
             return await context.SaveChangesAsync() > 0;
         }
-        #endregion
+
+        #endregion DELETE
     }
 }
